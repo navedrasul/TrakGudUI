@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'variables';
+@import '../node_modules/bootstrap/scss/bootstrap';
+
+:root{
+  --body-bg: #ccd;
+
+  --bg-blue: #048;
+  --bg-blue-light: #5ad;
+  --bg-green: #064;
+}
+
+
+body {
+  background-color: var(--body-bg);
+}

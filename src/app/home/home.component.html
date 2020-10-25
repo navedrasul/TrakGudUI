@@ -1,1 +1,44 @@
-<p>home works!</p>
+<mat-drawer-container hasBackdrop="true">
+  <mat-drawer
+    #drawer
+    mode="over"
+  >
+    <mat-list color="primary">
+      <mat-list-item>
+        <mat-icon>home</mat-icon>
+        Home
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>Item 2</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>Item 3</mat-list-item>
+    </mat-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-toolbar color="primary">
+      <button
+        mat-icon-button
+        aria-label="Menu button"
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span aria-label="App title">TrakGud</span>
+      <span class="md-spacer"></span>
+      <button
+        mat-icon-button
+        class="favorite-icon"
+        aria-label="Icon-button with heart icon"
+      >
+        <mat-icon>favorite</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        aria-label="Icon-button with share icon"
+      >
+        <mat-icon>share</mat-icon>
+      </button>
+    </mat-toolbar>
+    page body
+  </mat-drawer-content>
+</mat-drawer-container>

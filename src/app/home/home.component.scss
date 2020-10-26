@@ -23,12 +23,11 @@ mat-drawer {
   align-items: flex-start;
 }
 
-mat-list-item {
+mat-nav-list {
   font-weight: 500;
-  cursor: pointer;
 }
 
-mat-list-item mat-icon {
+mat-nav-list mat-icon {
   margin-right: 10px;
 }
 

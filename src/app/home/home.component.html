@@ -1,1 +1,37 @@
-<p>home works!</p>
+<mat-drawer-container hasBackdrop="true">
+  <mat-drawer
+    #drawer
+    mode="over"
+  >
+    <mat-nav-list>
+      <a
+        mat-list-item
+        [routerLink]="menuLink.route"
+        *ngFor="let menuLink of menuLinks"
+      >
+        <mat-icon>{{ menuLink.icon }}</mat-icon>
+        {{ menuLink.text }}
+      </a>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-toolbar color="primary">
+      <button
+        mat-icon-button
+        aria-label="Menu button"
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span aria-label="App title">TrakGud</span>
+      <span class="md-spacer"></span>
+      <!-- <button
+        mat-icon-button
+        aria-label="Icon-button with share icon"
+      >
+        <mat-icon>share</mat-icon>
+      </button> -->
+    </mat-toolbar>
+    page body
+  </mat-drawer-content>
+</mat-drawer-container>

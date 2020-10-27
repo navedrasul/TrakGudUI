@@ -1,0 +1,14 @@
+<p>main-content works!</p>
+<div class="chart-div">
+  <canvas
+    baseChart
+    [datasets]="barChartData"
+    [labels]="barChartLabels"
+    [options]="barChartOptions"
+    [plugins]="barChartPlugins"
+    [legend]="barChartLegend"
+    [chartType]="barChartType"
+  >
+  </canvas>
+</div>
+<button type="button" (click)="toggleCurrentTheme()">Switch Theme</button>

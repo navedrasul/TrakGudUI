@@ -19,12 +19,16 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { MainContentComponent } from './main-content/main-content.component';
+import { TestChartComponent } from './test-chart/test-chart.component';
+import { BuyComponent } from './buy/buy.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    MainContentComponent
+    MainContentComponent,
+    TestChartComponent,
+    BuyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

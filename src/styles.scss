@@ -15,3 +15,13 @@ app-root {
   width: 100%;
   display: flex;
 }
+
+// Test Styles
+
+.test-borders {
+  border: solid orange;
+}
+
+.test-borders * {
+  border: solid orange;
+}

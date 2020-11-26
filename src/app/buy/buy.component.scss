@@ -1,0 +1,78 @@
+@import "../../assets/style/global/variables.scss";
+
+$titleIconSize: 25vw;
+$titleTextSize: 25vw;
+
+$bigButtonSize: 21vw;
+$bigButtonIconSize: 10vw;
+$bigButtonTextSize: 5vw;
+
+.bigPageTitle {
+  width: 100%;
+  margin-top: 5vw;
+  margin-bottom: 10vw;
+
+  display: flex;
+  justify-content: center;
+}
+
+.titleIcon {
+  width: $titleIconSize;
+  height: $titleIconSize;
+  font-size: 0.75 * $titleIconSize;
+  color: lightgrey;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleText {
+  height: $titleTextSize;
+  font-size: 0.75 * $titleTextSize;
+  color: $themeColor_light;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonsRow {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.bigButton {
+  // width: $bigButtonSize;
+  // height: $bigButtonSize;
+  // background-color: $themeColor_light;
+}
+
+.bigButtonContent {
+  width: $bigButtonSize;
+  height: $bigButtonSize;
+  margin-top: 2vw;
+  margin-bottom: 1vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bigButtonIcon {
+  width: $bigButtonIconSize;
+  height: $bigButtonIconSize;
+  font-size: $bigButtonIconSize;
+  margin-bottom: 1vw;
+  // color: grey;
+}
+
+.bigButtonText {
+  // width: $bigButtonTextSize;
+  // height: $bigButtonTextSize;
+  font-size: $bigButtonTextSize;
+  // color: white;
+}

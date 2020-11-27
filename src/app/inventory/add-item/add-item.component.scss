@@ -1,0 +1,53 @@
+@import "../../../assets/style/global/variables.scss";
+
+$titleIconSize: 3rem;
+$maxTitleIconSize: 50px;
+
+$titleTextSize: 3rem;
+$maxTitleTextSize: 50px;
+
+.pageTitle {
+  width: 100%;
+  margin-top: 1vw;
+  margin-bottom: 2vw;
+
+  display: flex;
+  justify-content: center;
+}
+
+.titleIcon {
+  width: $titleIconSize;
+  max-width: $maxTitleIconSize;
+  height: $titleIconSize;
+  max-height: $maxTitleIconSize;
+  font-size: 0.75 * $titleIconSize;
+  color: lightgrey;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleText {
+  height: $titleTextSize;
+  max-height: $maxTitleTextSize;
+  font-size: 0.75 * $titleTextSize;
+  color: $themeColor_light;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addForm {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+mat-form-field {
+  width: 95%;
+  max-width: 512px;
+}

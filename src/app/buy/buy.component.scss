@@ -1,11 +1,19 @@
 @import "../../assets/style/global/variables.scss";
 
 $titleIconSize: 25vw;
+$maxTitleIconSize: 256px;
+
 $titleTextSize: 25vw;
+$maxTitleTextSize: 256px;
 
 $bigButtonSize: 21vw;
+$maxBigButtonSize: 210px;
+
 $bigButtonIconSize: 10vw;
+$maxBigButtonIconSize: 100px;
+
 $bigButtonTextSize: 5vw;
+$maxBigButtonTextSize: 50px;
 
 .bigPageTitle {
   width: 100%;
@@ -18,7 +26,9 @@ $bigButtonTextSize: 5vw;
 
 .titleIcon {
   width: $titleIconSize;
+  max-width: $maxTitleIconSize;
   height: $titleIconSize;
+  max-height: $maxTitleIconSize;
   font-size: 0.75 * $titleIconSize;
   color: lightgrey;
 
@@ -29,6 +39,7 @@ $bigButtonTextSize: 5vw;
 
 .titleText {
   height: $titleTextSize;
+  max-height: $maxTitleTextSize;
   font-size: 0.75 * $titleTextSize;
   color: $themeColor_light;
 
@@ -52,7 +63,9 @@ $bigButtonTextSize: 5vw;
 
 .bigButtonContent {
   width: $bigButtonSize;
+  max-width: $maxBigButtonSize;
   height: $bigButtonSize;
+  max-height: $maxBigButtonSize;
   margin-top: 2vw;
   margin-bottom: 1vw;
 
@@ -64,7 +77,9 @@ $bigButtonTextSize: 5vw;
 
 .bigButtonIcon {
   width: $bigButtonIconSize;
+  max-width: $maxBigButtonIconSize;
   height: $bigButtonIconSize;
+  max-height: $maxBigButtonIconSize;
   font-size: $bigButtonIconSize;
   margin-bottom: 1vw;
   // color: grey;

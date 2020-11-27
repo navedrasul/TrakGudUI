@@ -7,6 +7,7 @@
       <a
         mat-list-item
         [routerLink]="menuLink.route"
+        routerLinkActive="active"
         *ngFor="let menuLink of menuLinks"
       >
         <mat-icon>{{ menuLink.icon }}</mat-icon>
@@ -27,17 +28,18 @@
         aria-label="App title"
         class="appLogo"
       ><span class="appLogo-caps">T</span>rak<span class="appLogo-caps">G</span>ud</span> -->
+      <span class="md-spacer"></span>
       <span
         aria-label="App title"
         class="appLogo"
       ><img src="../../assets/img/TrakGud_h_96x32.png"></span>
       <span class="md-spacer"></span>
-      <!-- <button
+      <button
         mat-icon-button
-        aria-label="Icon-button with share icon"
+        aria-label="Help button"
       >
-        <mat-icon>share</mat-icon>
-      </button> -->
+        <mat-icon>help_outline</mat-icon>
+      </button>
     </mat-toolbar>
     <app-main-content>
       <router-outlet></router-outlet>

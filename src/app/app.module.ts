@@ -6,6 +6,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +14,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -21,6 +25,7 @@ import { HomeComponent } from './home/home.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { TestChartComponent } from './test-chart/test-chart.component';
 import { BuyComponent } from './buy/buy.component';
+import { AddItemComponent } from './inventory/add-item/add-item.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +33,8 @@ import { BuyComponent } from './buy/buy.component';
     HomeComponent,
     MainContentComponent,
     TestChartComponent,
-    BuyComponent
+    BuyComponent,
+    AddItemComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -42,7 +48,12 @@ import { BuyComponent } from './buy/buy.component';
     MatSidenavModule,
     MatListModule,
     MatMenuModule,
-    NgxChartsModule
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    NgxChartsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

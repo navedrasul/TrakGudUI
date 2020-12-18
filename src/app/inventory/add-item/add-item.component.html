@@ -2,20 +2,21 @@
   <div>
     <mat-icon class="titleIcon">add</mat-icon>
   </div>
-  <div class="titleText">Add Items</div>
+  <div class="titleText">Add Item</div>
 </div>
 <form
   [formGroup]="addForm"
   class="addForm"
+  (ngSubmit)="onSubmit()"
 >
   <mat-form-field appearance="fill">
     <mat-label>Product</mat-label>
     <mat-select formControlName="prodId">
       <mat-option
-        *ngFor="let food of foods"
-        [value]="food.value"
+        *ngFor="let prod of products"
+        [value]="prod.prodId"
       >
-        {{food.viewValue}}
+        {{prod.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -35,4 +36,10 @@
       formControlName="qty"
     >
   </mat-form-field>
+  <button
+    type="submit"
+    mat-raised-button
+    color="primary"
+    [disabled]="!addForm.valid"
+  >Submit</button>
 </form>

@@ -11,7 +11,20 @@ export class AddItemComponent implements OnInit {
   addForm: FormGroup;
 
   item: any = {};
-  products: any[] = [];
+  products = [
+    {
+      prodId: 1,
+      name: 'prod A',
+    },
+    {
+      prodId: 2,
+      name: 'prod B',
+    },
+    {
+      prodId: 3,
+      name: 'prod C',
+    },
+  ];
 
   constructor() { }
 
@@ -23,4 +36,8 @@ export class AddItemComponent implements OnInit {
     });
   }
 
+  onSubmit(): void {
+    const item = this.addForm.value;
+    console.log('Adding item: ', item);
+  }
 }

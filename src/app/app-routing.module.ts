@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BuyComponent } from './buy/buy.component';
 import { HomeComponent } from './home/home.component';
-import { AddItemComponent } from './inventory/add-item/add-item.component';
+import { AddItemComponent } from './shared-parts/add-item/add-item.component';
+import { ListItemsComponent } from './shared-parts/list-items/list-items.component';
 
 const routes: Routes = [
   {
@@ -10,7 +11,11 @@ const routes: Routes = [
     component: BuyComponent
   },
   {
-    path: 'buy/add-item',
+    path: 'shared/list-items',
+    component: ListItemsComponent
+  },
+  {
+    path: 'shared/add-item',
     component: AddItemComponent
   },
   {

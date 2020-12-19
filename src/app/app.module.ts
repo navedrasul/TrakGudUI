@@ -17,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -25,7 +26,8 @@ import { HomeComponent } from './home/home.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { TestChartComponent } from './test-chart/test-chart.component';
 import { BuyComponent } from './buy/buy.component';
-import { AddItemComponent } from './inventory/add-item/add-item.component';
+import { AddItemComponent } from './shared-parts/add-item/add-item.component';
+import { ListItemsComponent } from './shared-parts/list-items/list-items.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { AddItemComponent } from './inventory/add-item/add-item.component';
     MainContentComponent,
     TestChartComponent,
     BuyComponent,
-    AddItemComponent
+    AddItemComponent,
+    ListItemsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -51,6 +54,7 @@ import { AddItemComponent } from './inventory/add-item/add-item.component';
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatTableModule,
     NgxChartsModule,
     FormsModule,
     ReactiveFormsModule

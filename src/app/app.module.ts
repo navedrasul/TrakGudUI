@@ -18,6 +18,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -25,9 +29,17 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { TestChartComponent } from './test-chart/test-chart.component';
-import { BuyComponent } from './buy/buy.component';
+import { BuyComponent } from './main-pages/buy/buy.component';
 import { AddItemComponent } from './shared-parts/add-item/add-item.component';
-import { ListItemsComponent } from './shared-parts/list-items/list-items.component';
+import { MatRippleModule } from '@angular/material/core';
+import { ItemDetailsComponent } from './shared-parts/item-details/item-details.component';
+import { ItemsListComponent } from './shared-parts/items-list/items-list.component';
+import { TgApiService } from './services/tg-api.service';
+import { DataService } from './services/data.service';
+import { AppStateService } from './services/app-state.service';
+import { HttpClientModule } from '@angular/common/http';
+import { LoggerService } from './services/logger.service';
+import { AddItemBatchComponent } from './shared-parts/add-item-batch/add-item-batch.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +49,9 @@ import { ListItemsComponent } from './shared-parts/list-items/list-items.compone
     TestChartComponent,
     BuyComponent,
     AddItemComponent,
-    ListItemsComponent
+    ItemDetailsComponent,
+    ItemsListComponent,
+    AddItemBatchComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -45,6 +59,7 @@ import { ListItemsComponent } from './shared-parts/list-items/list-items.compone
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     RouterModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -55,11 +70,21 @@ import { ListItemsComponent } from './shared-parts/list-items/list-items.compone
     MatFormFieldModule,
     MatSelectModule,
     MatTableModule,
+    MatRippleModule,
+    MatProgressBarModule,
+    MatSnackBarModule,
+    MatStepperModule,
+    MatAutocompleteModule,
     NgxChartsModule,
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    LoggerService,
+    TgApiService,
+    DataService,
+    AppStateService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

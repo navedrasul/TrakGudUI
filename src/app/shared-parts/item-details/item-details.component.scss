@@ -1,0 +1,23 @@
+@import "../../../assets/style/global/variables.scss";
+
+.detailsContainer {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dtlPBar {
+  width: 95%;
+  max-width: 512px;
+}
+
+.dtlFields {
+  width: 95%;
+  max-width: 512px;
+}
+
+.dtlLabel{
+  font-size: 10px;
+}

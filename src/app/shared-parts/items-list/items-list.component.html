@@ -1,0 +1,76 @@
+<div class="list-container">
+  <h1>Items List</h1>
+  <table
+    mat-table
+    [dataSource]="items"
+    class="mat-elevation-z8 il-table"
+  >
+    <!-- Product Column -->
+    <ng-container matColumnDef="prodId">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+      > {{displayedColumnsTxt[0]}} </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+      > {{element.product.name}} </td>
+    </ng-container>
+
+    <!-- Quantity Column -->
+    <ng-container matColumnDef="qty">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+      > {{displayedColumnsTxt[1]}} </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+      > {{element.item.qty}} </td>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+      > {{displayedColumnsTxt[2]}} </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+      > {{element.item.price}} </td>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <!-- <ng-container matColumnDef="buttons">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        aria-label="Buttons column"
+        class="btnCol"
+      > {{displayedColumnsTxt[3]}} </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+      >
+        <button
+          mat-icon-button
+          color="accent"
+          aria-label="Edit button"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container> -->
+
+    <tr
+      mat-header-row
+      *matHeaderRowDef="displayedColumns"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns;"
+      (click)="onRowClick(row.item.id)"
+    ></tr>
+  </table>
+</div>

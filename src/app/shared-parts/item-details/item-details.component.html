@@ -1,0 +1,33 @@
+<div class="detailsContainer">
+  <h1>Item Details</h1>
+  <mat-progress-bar
+    [mode]="pBarMode"
+    *ngIf="dataLoadCount > 0"
+    class="dtlPBar"
+  ></mat-progress-bar>
+  <div
+    class="dtlFields"
+    *ngIf="dataLoadCount === 0 && item!==null && products!==null"
+  >
+    <div class="dtlField">
+      <div class="dtlLabel">Product</div>
+      <div class="dtlValue">{{product?.name}}</div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dtlField">
+      <div class="dtlLabel">ID</div>
+      <div class="dtlValue">{{item?.id}}</div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dtlField">
+      <div class="dtlLabel">Price</div>
+      <div class="dtlValue">{{item?.price | currency:'Rs '}}</div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dtlField">
+      <div class="dtlLabel">Quantity</div>
+      <div class="dtlValue">{{item?.qty}}</div>
+    </div>
+    <mat-divider></mat-divider>
+  </div>
+</div>

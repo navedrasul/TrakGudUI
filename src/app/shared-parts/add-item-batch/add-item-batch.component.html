@@ -1,0 +1,86 @@
+<div class="pageTitle">
+  <div>
+    <mat-icon class="titleIcon">add</mat-icon>
+  </div>
+  <div class="titleText">Add Item</div>
+</div>
+<mat-horizontal-stepper
+  linear
+  #stepper
+>
+  <mat-step [stepControl]="addFormStep1">
+    <form
+      [formGroup]="addFormStep1"
+      class="addFormStep1"
+    >
+      <ng-template matStepLabel>Fill values, press next.</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Product</mat-label>
+        <mat-select formControlName="itemBatchType">
+          <mat-option
+            *ngFor="let prod of products"
+            [value]="prod.id"
+          >
+            {{prod.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Item Source Type</mat-label>
+        <mat-select formControlName="sourceType">
+          <mat-option
+            *ngFor="let ibst of itemBatchSourceTypes"
+            [value]="ibst.value"
+          >
+            {{ibst.text}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button
+          type="submit"
+          mat-raised-button
+          matStepperNext
+          color="primary"
+          [disabled]="!addFormStep1.valid"
+        >Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="addFormStep2">
+    <form
+      [formGroup]="addFormStep2"
+      class="addFormStep2"
+    >
+      <ng-template matStepLabel>Select or add a seller, press next.</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Seller</mat-label>
+        <input
+          type="text"
+          placeholder="Pick one"
+          aria-label="Number"
+          matInput
+          formControlName="sourceId"
+          [matAutocomplete]="autoSeller"
+        >
+        <mat-autocomplete #autoSeller="matAutocomplete">
+          <mat-option
+            *ngFor="let seller of filteredSellers | async"
+            [value]="seller.id"
+          >
+            {{seller.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div>
+        <button
+          type="submit"
+          mat-raised-button
+          matStepperNext
+          color="primary"
+          [disabled]="!addFormStep2.valid"
+        >Submit</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>

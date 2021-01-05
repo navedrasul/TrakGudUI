@@ -62,7 +62,7 @@ export class AddItemBatchComponent implements OnInit {
       transactionId: new FormControl()
     });
 
-    // Setup FormControls
+    // Subscribe to form events.
 
     this.addFormStep2.get('sourceId').valueChanges
       .pipe(

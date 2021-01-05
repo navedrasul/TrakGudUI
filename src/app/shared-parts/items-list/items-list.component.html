@@ -1,5 +1,25 @@
 <div class="list-container">
-  <h1>Items List</h1>
+  <div class="header-row">
+    <div></div>
+    <div>
+      <h1>Item Details</h1>
+    </div>
+    <div>
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Add button"
+        (click)="addBtnOnClicked()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-progress-bar
+    [mode]="pBarMode"
+    *ngIf="dataLoadCount > 0"
+    class="dtlPBar"
+  ></mat-progress-bar>
   <table
     mat-table
     [dataSource]="items"
@@ -73,4 +93,17 @@
       (click)="onRowClick(row.item.id)"
     ></tr>
   </table>
+  <div class="list-footer">
+    <div>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="addBtnOnClicked()"
+      >
+        <mat-icon>add</mat-icon>
+        Add Item
+      </button>
+    </div>
+  </div>
 </div>

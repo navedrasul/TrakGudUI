@@ -6,13 +6,27 @@ $maxTitleIconSize: 50px;
 $titleTextSize: 3rem;
 $maxTitleTextSize: 50px;
 
-.pageTitle {
+.pageContainer {
   width: 100%;
-  margin-top: 1vw;
-  margin-bottom: 2vw;
 
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-row {
+  width: 95%;
+  max-width: 512px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.dtlPBar {
+  width: 100%;
+  max-width: 512px;
 }
 
 .titleIcon {
@@ -41,13 +55,27 @@ $maxTitleTextSize: 50px;
 
 .addForm {
   width: 100%;
+  max-width: 512px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+.form-footer {
+  width: 100%;
+  padding-top: 20px;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 mat-form-field {
+  width: 95%;
+}
+
+.dtlPBar {
   width: 95%;
   max-width: 512px;
 }

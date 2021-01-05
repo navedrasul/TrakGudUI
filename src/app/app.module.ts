@@ -40,6 +40,7 @@ import { AppStateService } from './services/app-state.service';
 import { HttpClientModule } from '@angular/common/http';
 import { LoggerService } from './services/logger.service';
 import { AddItemBatchComponent } from './shared-parts/add-item-batch/add-item-batch.component';
+import { EditItemComponent } from './shared-parts/edit-item/edit-item.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { AddItemBatchComponent } from './shared-parts/add-item-batch/add-item-ba
     AddItemComponent,
     ItemDetailsComponent,
     ItemsListComponent,
-    AddItemBatchComponent
+    AddItemBatchComponent,
+    EditItemComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

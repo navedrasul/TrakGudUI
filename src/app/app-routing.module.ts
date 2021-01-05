@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { AddItemComponent } from './shared-parts/add-item/add-item.component';
 import { ItemDetailsComponent } from './shared-parts/item-details/item-details.component';
 import { ItemsListComponent } from './shared-parts/items-list/items-list.component';
+import { EditItemComponent } from './shared-parts/edit-item/edit-item.component';
 
 const routes: Routes = [
   {
@@ -20,13 +21,17 @@ const routes: Routes = [
     component: ItemDetailsComponent
   },
   {
+    path: 'shared/edit-item/:id',
+    component: EditItemComponent
+  },
+  {
     path: 'shared/add-item',
     component: AddItemComponent
   },
   {
     path: '**',
     // component: HomeComponent
-    component: BuyComponent
+    component: AddItemComponent
   }
 ];
 

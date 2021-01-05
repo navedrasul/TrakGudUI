@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import "assets/style/global/variables.scss";
+
 html,
 body {
   width: 100%;
@@ -24,4 +26,36 @@ app-root {
 
 .test-borders * {
   border: solid orange;
+}
+
+// Background Color Classes
+
+.bg_theme {
+  background-color: $themeColor;
+  color: white;
+}
+
+.bg_lightTheme {
+  background-color: $themeColor_light;
+  color: black;
+}
+
+.bg_info {
+  background-color: $infoColor;
+  color: black;
+}
+
+.bg_warn {
+  background-color: $warnColor;
+  color: white;
+}
+
+.bg_darkGrey {
+  background-color: $darkGreyColor;
+  color: white;
+}
+
+.bg_success {
+  background-color: $successColor;
+  color: white;
 }

@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // import { retry } from 'rxjs/operators';
 import { ApiDItem, DItem, DProduct, DProductUnit } from 'src/app/api-models/api-models';
@@ -29,6 +29,7 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private logger: LoggerService,
     private tgapiSvc: TgApiService,
     private snackBar: MatSnackBar
@@ -151,5 +152,13 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
     this.snackBar.open(message, null, {
       duration,
     });
+  }
+
+  editBtnOnClicked(): void {
+    this.router.navigate(['/shared/edit-item/' + this.item.id]);
+  }
+
+  backBtnOnClick(): void {
+    this.router.navigate(['/shared/items-list']);
   }
 }

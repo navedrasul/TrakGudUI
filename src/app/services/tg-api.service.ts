@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { DItem } from '../api-models/api-models';
 import { LoggerService } from './logger.service';
 
-import { ModelToApi } from "./model-to-api";
+import { ModelToApi } from './model-to-api';
 
 @Injectable({
   providedIn: 'root'
@@ -24,17 +24,7 @@ export class TgApiService {
     console.log('Getting data from URL: ' + targetUrl + ' ...');
     return this.http.get<T[]>(targetUrl)
       .pipe(
-        catchError(err => {
-
-          // TODO: send the error to remote logging infrastructure
-          this.logger.error(err); // log to console instead
-
-          // TODO: better job of transforming error for user consumption
-          this.logger.log(`getById failed: ${err.message}`);
-
-          // Let the app keep running by returning an empty result.
-          return of([] as T[]);
-        })
+        catchError(this.apiErrorHandler)
       );
   }
 
@@ -46,17 +36,7 @@ export class TgApiService {
       { params }
     )
       .pipe(
-        catchError(err => {
-
-          // TODO: send the error to remote logging infrastructure
-          this.logger.error(err); // log to console instead
-
-          // TODO: better job of transforming error for user consumption
-          this.logger.log(`getById failed: ${err.message}`);
-
-          // Let the app keep running by returning an empty result.
-          return of([] as T[]);
-        })
+        catchError(this.apiErrorHandler)
       );
   }
 
@@ -65,17 +45,7 @@ export class TgApiService {
     console.log('Getting data from URL: ' + targetUrl + ' ...');
     return this.http.get<T>(targetUrl)
       .pipe(
-        catchError(err => {
-
-          // TODO: send the error to remote logging infrastructure
-          this.logger.error(err); // log to console instead
-
-          // TODO: better job of transforming error for user consumption
-          this.logger.log(`getById failed: ${err.message}`);
-
-          // Let the app keep running by returning an empty result.
-          return of({} as T);
-        })
+        catchError(this.apiErrorHandler)
       );
   }
 
@@ -91,35 +61,30 @@ export class TgApiService {
       );
   }
 
+  addSingle(typeName: string, objToAdd: any): Observable<any> {
+    const targetUrl = this.API_URL + ModelToApi[typeName];
+    console.log('Posting data to URL: ' + targetUrl + ' ...');
+    return this.http.post<any>(
+      targetUrl,
+      objToAdd
+    )
+      .pipe(
+        catchError(this.apiErrorHandler)
+      );
+  }
+
+
+  // API Service Error Handler.
+
   private apiErrorHandler<T>(err: any, caught: Observable<T>): Observable<T> {
 
-  // TODO: send the error to remote logging infrastructure
-  this.logger.error(err); // log to console instead
+    // TODO: send the error to remote logging infrastructure
+    this.logger.error(err); // log to console instead
 
-  // TODO: better job of transforming error for user consumption
-  this.logger.log(`getById failed: ${err.message}`);
+    // TODO: better job of transforming error for user consumption
+    this.logger.log(`tgApiService failed: ${err.message}`);
 
-  // Let the app keep running by returning an empty result.
-  return of({} as T);
-}
-
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError<T>(operation = 'operation', result?: T): any {
-    return (err: any) => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(err); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      this.logger.log(`${operation} failed: ${err.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+    // Let the app keep running by returning an empty result.
+    return of({} as T);
   }
 }

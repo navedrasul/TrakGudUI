@@ -1,5 +1,29 @@
 <div class="detailsContainer">
-  <h1>Item Details</h1>
+  <div class="header-row">
+    <div>
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Back button"
+        (click)="backBtnOnClick()"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+    <div>
+      <h1>Item Details</h1>
+    </div>
+    <div>
+      <button
+        mat-mini-fab
+        color="warn"
+        aria-label="Edit button"
+        (click)="editBtnOnClicked()"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </div>
   <mat-progress-bar
     [mode]="pBarMode"
     *ngIf="dataLoadCount > 0"
@@ -29,5 +53,29 @@
       <div class="dtlValue">{{item?.qty}}</div>
     </div>
     <mat-divider></mat-divider>
+  </div>
+  <div class="footer-row">
+    <div>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="backBtnOnClick()"
+      >
+        <mat-icon>arrow_back</mat-icon>
+        Back to List
+      </button>
+    </div>
+    <div>
+      <button
+        type="button"
+        mat-raised-button
+        color="warn"
+        (click)="editBtnOnClicked()"
+      >
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+    </div>
   </div>
 </div>

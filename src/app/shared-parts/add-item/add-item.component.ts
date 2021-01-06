@@ -56,9 +56,6 @@ export class AddItemComponent implements OnInit {
   }
 
   loadData(): void {
-    // // Create an empty item object to bind with the form controls.
-    // this.item = new DItem();
-
     // Get all Products
 
     this.apiRequestsCount++;
@@ -66,7 +63,7 @@ export class AddItemComponent implements OnInit {
       .subscribe(
         (res) => {
           this.products = (res as DProduct[]).map(obj => ({ ...obj }));
-          console.log('Data received from TgApiService.getAll(): ', this.products);
+          // console.log('Data received from TgApiService.getAll(): ', this.products);
         },
         (err) => {
           this.apiRequestsCount--;

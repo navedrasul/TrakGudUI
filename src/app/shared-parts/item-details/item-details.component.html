@@ -26,12 +26,12 @@
   </div>
   <mat-progress-bar
     [mode]="pBarMode"
-    *ngIf="dataLoadCount > 0"
+    *ngIf="apiRequestsCount > 0"
     class="dtlPBar"
   ></mat-progress-bar>
   <div
     class="dtlFields"
-    *ngIf="dataLoadCount === 0 && item!==null && products!==null"
+    *ngIf="apiRequestsCount === 0 && item!==null && products!==null"
   >
     <div class="dtlField">
       <div class="dtlLabel">Product</div>

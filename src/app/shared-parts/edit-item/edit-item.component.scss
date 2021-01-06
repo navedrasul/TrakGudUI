@@ -1,0 +1,81 @@
+@import "../../../assets/style/global/variables.scss";
+
+$titleIconSize: 3rem;
+$maxTitleIconSize: 50px;
+
+$titleTextSize: 3rem;
+$maxTitleTextSize: 50px;
+
+.pageContainer {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-row {
+  width: 95%;
+  max-width: 512px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.dtlPBar {
+  width: 100%;
+  max-width: 512px;
+}
+
+.titleIcon {
+  width: $titleIconSize;
+  max-width: $maxTitleIconSize;
+  height: $titleIconSize;
+  max-height: $maxTitleIconSize;
+  font-size: 0.75 * $titleIconSize;
+  color: lightgrey;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleText {
+  height: $titleTextSize;
+  max-height: $maxTitleTextSize;
+  font-size: 0.75 * $titleTextSize;
+  color: $themeColor_light;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addForm {
+  width: 100%;
+  max-width: 512px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-footer {
+  width: 100%;
+  padding-top: 20px;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+mat-form-field {
+  width: 95%;
+}
+
+.dtlPBar {
+  width: 95%;
+  max-width: 512px;
+}

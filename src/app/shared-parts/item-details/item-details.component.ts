@@ -23,7 +23,7 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
   productUnit: DProductUnit;
   products: DProduct[];
 
-  dataLoadCount = 0;
+  apiRequestsCount = 0;
   pBarMode = 'query';
   loadDataError: string;
 
@@ -50,10 +50,6 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
     this.routeSub.unsubscribe();
   }
 
-  // dataIsLoading(): boolean {
-  //   return this.dataLoadCount > 0;
-  // }
-
   loadData(): void {
     if (!this.itemId) {
       this.loadDataError = 'Invalid item-id.';
@@ -64,42 +60,14 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
     this.pBarMode = 'query';
     this.loadDataError = null;
 
-    // // Get all Products
-
-    // this.dataLoadCount++;
-    // // console.log('dataLoadCount: ' + this.dataLoadCount);
-    // this.tgapiSvc.getAll<DProduct>(DProduct.name)
-    //   .subscribe(
-    //     (res) => {
-    //       this.products = (res as DProduct[]).map(obj => ({ ...obj }));
-    //       // console.log('Data received from TgApiService.getAll(): ', this.products);
-
-    //       if (this.item) {
-    //         this.product = this.products.find(p => p.id === this.item.prodId);
-    //       }
-    //     },
-    //     (err) => {
-    //       this.logger.error('Error while receiving data from TgApiService.getAll(): ');
-    //       this.logger.error(err);
-    //       this.loadDataError = 'Problem loading data. Please try later.';
-    //       this.openSnackBar(this.loadDataError, 3000);
-    //       this.dataLoadCount--;
-    //       // console.log('dataLoadCount: ' + this.dataLoadCount);
-    //     },
-    //     () => {
-    //       this.dataLoadCount--;
-    //       // console.log('dataLoadCount: ' + this.dataLoadCount);
-    //     }
-    //   );
-
     // Get the Item with id = itemId
 
     const params = new HttpParams().set('withProduct', 'true');
     // params.append('withProduct', 'true');
 
-    this.dataLoadCount++;
+    this.apiRequestsCount++;
     // console.log('dataLoadCount: ' + this.dataLoadCount);
-    this.tgapiSvc.getByIdWithParams<DItem>(DItem.name, this.itemId, params)
+    this.tgapiSvc.getByIdWithParams<ApiDItem>(DItem.name, this.itemId, params)
       .subscribe(
         (res) => {
           const apiItem = (res as ApiDItem);
@@ -109,49 +77,16 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
           // console.log('Data received from TgApiService.getById(): ', this.item);
         },
         (err) => {
-          this.logger.error('Error while receiving data from TgApiService.getById(): ');
-          this.logger.error(err);
-          this.loadDataError = 'Problem loading data. Please try later.';
-          this.openSnackBar(this.loadDataError, 3000);
-          this.dataLoadCount--;
-          // console.log('dataLoadCount: ' + this.dataLoadCount);
+          this.apiRequestsCount--;
+          this.handleApiResErr(err);
         },
         () => {
-          this.dataLoadCount--;
+          this.apiRequestsCount--;
           // console.log('dataLoadCount: ' + this.dataLoadCount);
         }
       );
 
-    // TEST CODE: Start
-
-    // this.products = [
-    //   {
-    //     id: 1,
-    //     name: 'Chips'
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'Biscuits'
-    //   },
-    // ];
-
-    // this.item = {
-    //   id: 1,
-    //   prodId: 1,
-    //   prod: this.products[0],
-    //   qty: 13,
-    //   price: 3
-    // };
-
-    // TEST CODE: End
-
     this.pBarMode = 'indeterminate';
-  }
-
-  openSnackBar(message: string, duration: number): void {
-    this.snackBar.open(message, null, {
-      duration,
-    });
   }
 
   editBtnOnClicked(): void {
@@ -160,5 +95,56 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
 
   backBtnOnClick(): void {
     this.router.navigate(['/shared/items-list']);
+  }
+
+  // API-Service Response Error Handler.
+  handleApiResErr(error: any, redirect: boolean = false): void {
+    this.logger.error('Error while receiving data from TgApiService.getAll(): ');
+    this.logger.error(error);
+
+    this.loadDataError = 'Problem loading data. Please try later.';
+    // this.openSnackBar(this.loadDataError, 3000, 'warn');
+
+    if (redirect) {
+      // --- Redirect to the Items-list view ---
+      this.router.navigate(['/shared/items-list']).then((navigated: boolean) => {
+        if (navigated) {
+          this.openSnackBar(this.loadDataError, 3000, 'warn');
+        }
+      });
+    }
+  }
+
+  openSnackBar(message: string, duration: number, color: string = null): void {
+    if (color) {
+      let colorClass: string;
+
+      if (color === 'theme') {
+        colorClass = 'bg_theme';
+      } else if (color === 'lightTheme') {
+        colorClass = 'bg_lightTheme';
+      } else if (color === 'info') {
+        colorClass = 'bg_info';
+      } else if (color === 'warn') {
+        colorClass = 'bg_warn';
+      } else if (color === 'success') {
+        colorClass = 'bg_success';
+      } else {
+        colorClass = 'bg_darkGrey';
+      }
+
+      this.snackBar.open(
+        message,
+        null,
+        {
+          duration,
+          panelClass: colorClass
+        }
+      );
+    } else {
+      this.snackBar.open(message, null, {
+        duration,
+      });
+    }
   }
 }

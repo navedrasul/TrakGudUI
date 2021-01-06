@@ -19,7 +19,7 @@ export class ItemsListComponent implements OnInit {
   items: ApiDItem[];
   products: DProduct[];
 
-  dataLoadCount = 0;
+  apiRequestsCount = 0;
   pBarMode = 'query';
   loadDataError: string;
 
@@ -40,7 +40,7 @@ export class ItemsListComponent implements OnInit {
     const params = new HttpParams().set('withTxt', true.toString());
     // params.append('withTxt', true.toString());
 
-    this.dataLoadCount++;
+    this.apiRequestsCount++;
     this.tgapiSvc.getAllWithParams<ApiDItem>(DItem.name, params)
       .subscribe(
         (res) => {
@@ -48,11 +48,11 @@ export class ItemsListComponent implements OnInit {
           console.log('Data received from TgApiService.getAll(): ', this.items);
         },
         (err) => {
-          this.dataLoadCount--;
+          this.apiRequestsCount--;
           this.handleApiResErr(err);
         },
         () => {
-          this.dataLoadCount--;
+          this.apiRequestsCount--;
         }
       );
 

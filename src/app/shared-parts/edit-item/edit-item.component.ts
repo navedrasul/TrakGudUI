@@ -3,7 +3,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, forkJoin } from 'rxjs';
 // import { retry } from 'rxjs/operators';
 import { ApiDItem, DItem, DProduct, DProductUnit } from 'src/app/api-models/api-models';
 import { LoggerService } from 'src/app/services/logger.service';
@@ -29,6 +29,7 @@ export class EditItemComponent implements OnInit, OnDestroy {
   pBarMode = 'query';
   loadDataError: string;
   unitLbl: string;
+  dataIsLoading: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -83,22 +84,30 @@ export class EditItemComponent implements OnInit, OnDestroy {
 
   loadData(): void {
     if (!this.itemId) {
-      this.loadDataError = 'Invalid item-id.';
-      this.openSnackBar(this.loadDataError, 5000);
+      // --- Redirect to the Items-list view ---
+      this.router.navigate(['/shared/items-list/' + this.item.id]).then((navigated: boolean) => {
+        if (navigated) {
+          this.loadDataError = 'Invalid item-id.';
+          this.openSnackBar(this.loadDataError, 5000, 'warn');
+        }
+      });
       return;
     }
 
     this.pBarMode = 'query';
     this.loadDataError = null;
+    this.dataIsLoading = true;
 
     // Get all Products
 
-    this.apiRequestsCount++;
-    this.tgapiSvc.getAll<DProduct>(DProduct.name)
-      .subscribe(
+    const params = new HttpParams().set('mode', 'edit');
+
+    const itemForEditObs = this.tgapiSvc.getByIdWithParams<DItem>(DItem.name, this.itemId, params);
+
+    itemForEditObs.subscribe(
         (res) => {
-          this.products = (res as DProduct[]).map(obj => ({ ...obj }));
-          // console.log('Data received from TgApiService.getAll(): ', this.products);
+        const apiItemForEdit = (res as ApiDItem).map(obj => ({ ...obj }));
+        this.products = ({...apiItemForEdit} as DProduct[]);
         },
         (err) => {
           this.apiRequestsCount--;
@@ -106,7 +115,6 @@ export class EditItemComponent implements OnInit, OnDestroy {
         },
         () => {
           this.apiRequestsCount--;
-
           this.updateFormValues();
         }
       );
@@ -178,9 +186,9 @@ export class EditItemComponent implements OnInit, OnDestroy {
           console.log('Item successfully saved. API Response: ', res);
 
           // --- Redirect to the Items-list view ---
-          this.router.navigate(['/shared/edit-item/' + this.item.id]).then((navigated: boolean) => {
+          this.router.navigate(['/shared/item-detail/' + this.item.id]).then((navigated: boolean) => {
             if (navigated) {
-              this.openSnackBar('Successfully added the item', 3000, 'success');
+              this.openSnackBar('Successfully updated the item', 3000, 'success');
             }
           });
         },

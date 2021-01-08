@@ -16,7 +16,7 @@
     <div>
       <button
         mat-mini-fab
-        color="warn"
+        color="accent"
         aria-label="Edit button"
         (click)="editBtnOnClicked()"
       >
@@ -70,11 +70,22 @@
       <button
         type="button"
         mat-raised-button
-        color="warn"
+        color="accent"
         (click)="editBtnOnClicked()"
       >
         <mat-icon>edit</mat-icon>
         Edit
+      </button>
+    </div>
+    <div>
+      <button
+        type="button"
+        mat-raised-button
+        color="warn"
+        (click)="delBtnOnClicked()"
+      >
+        <mat-icon>close</mat-icon>
+        Delete
       </button>
     </div>
   </div>

@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // import { retry } from 'rxjs/operators';
 import { ApiDItem, DItem, DProduct, DProductUnit } from 'src/app/api-models/api-models';
+import { ConfirmDialogOptions } from 'src/app/models/confirm-dialog-options';
+import { DialogService } from 'src/app/services/dialog.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { TgApiService } from 'src/app/services/tg-api.service';
 
@@ -32,7 +34,8 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private logger: LoggerService,
     private tgapiSvc: TgApiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dlgSvc: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -95,6 +98,32 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
 
   backBtnOnClick(): void {
     this.router.navigate(['/shared/items-list']);
+  }
+
+  delBtnOnClicked(): void {
+    // Confirm deletion via dialog.
+
+    const dlgOptions: ConfirmDialogOptions = {
+      width: '450px',
+      data: {
+        title: 'Delete Confirmation',
+        message: 'Confirm item deletion',
+        confirmBtnText: 'Delete',
+        confirmBtnColor: 'warn',
+        cancelBtnColor: 'primary'
+      }
+    };
+
+    this.dlgSvc.openConfirmDialog(dlgOptions)
+      .afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        if (result === true) {
+          // ---> Delete the item.
+          this.logger.errorMessage(`Deleting item with Id: ${this.itemId}...`);
+
+          // TODO: Complete implementation!
+        }
+      });;
   }
 
   // API-Service Response Error Handler.

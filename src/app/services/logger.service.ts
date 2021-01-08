@@ -16,4 +16,8 @@ export class LoggerService {
     console.log('%cERROR: ', 'color: #f77;');
     console.log(value);
   }
+
+  public errorMessage(message: string): void {
+    console.log(`%c${message}`, 'color: #f77;');
+  }
 }

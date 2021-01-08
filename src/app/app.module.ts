@@ -23,6 +23,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -42,6 +43,9 @@ import { ItemDetailsComponent } from './shared-parts/item-details/item-details.c
 import { ItemsListComponent } from './shared-parts/items-list/items-list.component';
 import { AddItemBatchComponent } from './shared-parts/add-item-batch/add-item-batch.component';
 import { EditItemComponent } from './shared-parts/edit-item/edit-item.component';
+import { MessageDialogComponent } from './dialogs/message-dialog/message-dialog.component';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
+import { DialogService } from './services/dialog.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +58,9 @@ import { EditItemComponent } from './shared-parts/edit-item/edit-item.component'
     ItemDetailsComponent,
     ItemsListComponent,
     AddItemBatchComponent,
-    EditItemComponent
+    EditItemComponent,
+    MessageDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -78,6 +84,7 @@ import { EditItemComponent } from './shared-parts/edit-item/edit-item.component'
     MatSnackBarModule,
     MatStepperModule,
     MatAutocompleteModule,
+    MatDialogModule,
     NgxChartsModule,
     FormsModule,
     ReactiveFormsModule
@@ -86,7 +93,8 @@ import { EditItemComponent } from './shared-parts/edit-item/edit-item.component'
     LoggerService,
     TgApiService,
     DataService,
-    AppStateService
+    AppStateService,
+    DialogService
   ],
   bootstrap: [AppComponent]
 })

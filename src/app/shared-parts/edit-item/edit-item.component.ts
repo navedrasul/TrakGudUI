@@ -57,7 +57,9 @@ export class EditItemComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.params.subscribe(params => {
       // console.log(params) //log the entire params object
       console.log('id (from params): ', params.id); // log the value of id
-      this.itemId = params?.id || this.itemId;
+
+      // NOTE: convert id in params from string to number (by prepending it with + operator).
+      this.itemId = +(params?.id) || this.itemId;
     });
   }
 

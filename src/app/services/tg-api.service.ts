@@ -24,7 +24,16 @@ export class TgApiService {
     console.log('Getting data from URL: ' + targetUrl + ' ...');
     return this.http.get<T[]>(targetUrl)
       .pipe(
-        catchError(this.apiErrorHandler)
+        catchError(err => {
+          // TODO: send the error to remote logging infrastructure
+          this.logger.error(err); // log to console instead
+
+          // TODO: better job of transforming error for user consumption
+          this.logger.log(`tgApiService failed: ${err.message}`);
+
+          // Let the app keep running by returning an empty result.
+          return of([] as T[]);
+        })
       );
   }
 
@@ -36,7 +45,16 @@ export class TgApiService {
       { params }
     )
       .pipe(
-        catchError(this.apiErrorHandler)
+        catchError(err => {
+          // TODO: send the error to remote logging infrastructure
+          this.logger.error(err); // log to console instead
+
+          // TODO: better job of transforming error for user consumption
+          this.logger.log(`tgApiService failed: ${err.message}`);
+
+          // Let the app keep running by returning an empty result.
+          return of([] as T[]);
+        })
       );
   }
 
@@ -45,7 +63,16 @@ export class TgApiService {
     console.log('Getting data from URL: ' + targetUrl + ' ...');
     return this.http.get<T>(targetUrl)
       .pipe(
-        catchError(this.apiErrorHandler)
+        catchError(err => {
+          // TODO: send the error to remote logging infrastructure
+          this.logger.error(err); // log to console instead
+
+          // TODO: better job of transforming error for user consumption
+          this.logger.log(`tgApiService failed: ${err.message}`);
+
+          // Let the app keep running by returning an empty result.
+          return of({} as T);
+        })
       );
   }
 
@@ -57,7 +84,16 @@ export class TgApiService {
       { params }
     )
       .pipe(
-        catchError(this.apiErrorHandler)
+        catchError(err => {
+          // TODO: send the error to remote logging infrastructure
+          this.logger.error(err); // log to console instead
+
+          // TODO: better job of transforming error for user consumption
+          this.logger.log(`tgApiService failed: ${err.message}`);
+
+          // Let the app keep running by returning an empty result.
+          return of({} as T);
+        })
       );
   }
 
@@ -69,22 +105,38 @@ export class TgApiService {
       objToAdd
     )
       .pipe(
-        catchError(this.apiErrorHandler)
+        catchError(err => {
+          // TODO: send the error to remote logging infrastructure
+          this.logger.error(err); // log to console instead
+
+          // TODO: better job of transforming error for user consumption
+          this.logger.log(`tgApiService failed: ${err.message}`);
+
+          // Let the app keep running by returning an empty result.
+          return of({});
+        })
       );
   }
 
+  updateSingle(typeName: string, id: number, objToAdd: any): Observable<any> {
+    const targetUrl = this.API_URL + ModelToApi[typeName] + '/' + id;
+    console.log('Putting data to URL: ' + targetUrl + ' ...');
+    return this.http.put<any>(
+      targetUrl,
+      objToAdd
+    )
+      .pipe(
+        catchError(err => {
+          // TODO: send the error to remote logging infrastructure
+          this.logger.error(err); // log to console instead
 
-  // API Service Error Handler.
+          // TODO: better job of transforming error for user consumption
+          this.logger.log(`tgApiService failed: ${err.message}`);
 
-  private apiErrorHandler<T>(err: any, caught: Observable<T>): Observable<T> {
-
-    // TODO: send the error to remote logging infrastructure
-    this.logger.error(err); // log to console instead
-
-    // TODO: better job of transforming error for user consumption
-    this.logger.log(`tgApiService failed: ${err.message}`);
-
-    // Let the app keep running by returning an empty result.
-    return of({} as T);
+          // Let the app keep running by returning an empty result.
+          // return of({});
+          throw err;
+        })
+      );
   }
 }

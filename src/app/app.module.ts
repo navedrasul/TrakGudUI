@@ -7,6 +7,7 @@ import { environment } from '../environments/environment';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +26,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
+import { LoggerService } from './services/logger.service';
+import { AppStateService } from './services/app-state.service';
+import { TgApiService } from './services/tg-api.service';
+import { DataService } from './services/data.service';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { MainContentComponent } from './main-content/main-content.component';
@@ -34,11 +40,6 @@ import { AddItemComponent } from './shared-parts/add-item/add-item.component';
 import { MatRippleModule } from '@angular/material/core';
 import { ItemDetailsComponent } from './shared-parts/item-details/item-details.component';
 import { ItemsListComponent } from './shared-parts/items-list/items-list.component';
-import { TgApiService } from './services/tg-api.service';
-import { DataService } from './services/data.service';
-import { AppStateService } from './services/app-state.service';
-import { HttpClientModule } from '@angular/common/http';
-import { LoggerService } from './services/logger.service';
 import { AddItemBatchComponent } from './shared-parts/add-item-batch/add-item-batch.component';
 import { EditItemComponent } from './shared-parts/edit-item/edit-item.component';
 

@@ -13,6 +13,7 @@ export class LoggerService {
   }
 
   public error(value: any): void {
-    console.log('%cERROR: ', 'color: #f77;', value);
+    console.log('%cERROR: ', 'color: #f77;');
+    console.log(value);
   }
 }

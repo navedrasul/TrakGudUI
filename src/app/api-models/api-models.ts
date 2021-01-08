@@ -18,8 +18,8 @@ export class ApiDItemBatch extends ApiDItemBatchBase {
 }
 export class ApiDItem {
   item?: DItem;
-  product?: DProduct;
-  productUnit?: DProductUnit;
+  products?: DProduct[];
+  productUnits?: DProductUnit[];
 }
 export class UmUserUserGroup {
   userId?: number;

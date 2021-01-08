@@ -141,9 +141,6 @@ export class AddItemComponent implements OnInit {
     this.logger.error('Error while receiving data from TgApiService.getAll(): ');
     this.logger.error(error);
 
-    this.loadDataError = 'Problem loading data. Please try later.';
-    // this.openSnackBar(this.loadDataError, 3000, 'warn');
-
     if (redirect) {
       // --- Redirect to the Items-list view ---
       this.router.navigate(['/shared/items-list']).then((navigated: boolean) => {
@@ -151,6 +148,9 @@ export class AddItemComponent implements OnInit {
           this.openSnackBar(this.loadDataError, 3000, 'warn');
         }
       });
+    } else {
+      this.loadDataError = 'Problem processing request. Please try later.';
+      this.openSnackBar(this.loadDataError, 3000, 'warn');
     }
   }
 

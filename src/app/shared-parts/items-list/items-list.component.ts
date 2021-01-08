@@ -17,7 +17,6 @@ export class ItemsListComponent implements OnInit {
   displayedColumnsTxt: string[] = ['Product', 'Price', 'Quantity'];
 
   items: ApiDItem[];
-  products: DProduct[];
 
   apiRequestsCount = 0;
   pBarMode = 'query';
@@ -37,7 +36,7 @@ export class ItemsListComponent implements OnInit {
   loadData(): void {
     // Get all Items
 
-    const params = new HttpParams().set('withTxt', true.toString());
+    const params = new HttpParams().set('mode', 'txt');
     // params.append('withTxt', true.toString());
 
     this.apiRequestsCount++;
@@ -45,7 +44,7 @@ export class ItemsListComponent implements OnInit {
       .subscribe(
         (res) => {
           this.items = (res as ApiDItem[]).map(obj => ({ ...obj }));
-          console.log('Data received from TgApiService.getAll(): ', this.items);
+          // console.log('Data received from TgApiService.getAllWithParams(): ', this.items);
         },
         (err) => {
           this.apiRequestsCount--;
@@ -55,52 +54,6 @@ export class ItemsListComponent implements OnInit {
           this.apiRequestsCount--;
         }
       );
-
-
-    // TEST CODE: Start
-
-    // this.products = [
-    //   {
-    //     id: 1,
-    //     name: 'Chips'
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'Biscuits'
-    //   },
-    // ];
-
-    // this.items = [
-    //   {
-    //     item: {
-    //       id: 1,
-    //       prodId: 1,
-    //       qty: 13,
-    //       price: 3
-    //     },
-    //     product: this.products[0],
-    //   },
-    //   {
-    //     item: {
-    //       id: 2,
-    //       prodId: 2,
-    //       qty: 15,
-    //       price: 5
-    //     },
-    //     product: this.products[1]
-    //   },
-    //   {
-    //     item: {
-    //       id: 3,
-    //       prodId: 1,
-    //       qty: 17,
-    //       price: 7
-    //     },
-    //     product: this.products[0]
-    //   },
-    // ];
-
-    // TEST CODE: End
   }
 
   onRowClick(itemId: number): void {
@@ -117,7 +70,7 @@ export class ItemsListComponent implements OnInit {
     this.logger.error('Error while receiving data from TgApiService.getAll(): ');
     this.logger.error(error);
 
-    this.loadDataError = 'Problem loading data. Please try later.';
+    this.loadDataError = 'Problem processing request. Please try later.';
     this.openSnackBar(this.loadDataError, 3000, 'warn');
   }
 

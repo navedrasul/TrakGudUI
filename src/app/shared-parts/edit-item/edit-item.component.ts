@@ -19,7 +19,7 @@ export class EditItemComponent implements OnInit, OnDestroy {
   @Input() itemId: number;
   private routeSub: Subscription;
 
-  addForm: FormGroup;
+  editForm: FormGroup;
 
   item: DItem;
   products: DProduct[];
@@ -57,14 +57,14 @@ export class EditItemComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.params.subscribe(params => {
       // console.log(params) //log the entire params object
       console.log('id (from params): ', params.id); // log the value of id
-      this.itemId = params.id;
+      this.itemId = params?.id || this.itemId;
     });
   }
 
   initForm(): void {
     this.unitLbl = 'Select Product first';
 
-    this.addForm = new FormGroup({
+    this.editForm = new FormGroup({
       prodId: new FormControl(),
       price: new FormControl(),
       qty: new FormControl(),
@@ -73,10 +73,11 @@ export class EditItemComponent implements OnInit, OnDestroy {
   }
 
   updateFormValues(): void {
+    this.editForm.patchValue(this.item);
   }
 
   subscribeToFormEvents(): void {
-    this.addForm.get('prodId').valueChanges
+    this.editForm.get('prodId').valueChanges
       .subscribe(pRes => {
         this.loadProdIdDependantValues(pRes);
       });
@@ -102,72 +103,56 @@ export class EditItemComponent implements OnInit, OnDestroy {
 
     const params = new HttpParams().set('mode', 'edit');
 
-    const itemForEditObs = this.tgapiSvc.getByIdWithParams<DItem>(DItem.name, this.itemId, params);
+    const itemForEditObs = this.tgapiSvc.getByIdWithParams<ApiDItem>(DItem.name, this.itemId, params);
 
     itemForEditObs.subscribe(
-        (res) => {
-        const apiItemForEdit = (res as ApiDItem).map(obj => ({ ...obj }));
-        this.products = ({...apiItemForEdit} as DProduct[]);
-        },
-        (err) => {
-          this.apiRequestsCount--;
-          this.handleApiResErr(err, true);
-        },
-        () => {
-          this.apiRequestsCount--;
-          this.updateFormValues();
-        }
-      );
+      (res) => {
+        console.log('1 next');
+        const apiItemForEdit = { ...(res as ApiDItem) };
+        this.item = { ...apiItemForEdit.item };
+        this.products = apiItemForEdit.products.map(obj => ({ ...obj }));
+        this.productUnits = apiItemForEdit.productUnits.map(obj => ({ ...obj }));
 
-    // Get the Item with id = itemId
-
-    this.apiRequestsCount++;
-    this.tgapiSvc.getById<DItem>(DItem.name, this.itemId)
-      .subscribe(
-        (res) => {
-          const resItem = (res as DItem);
-          this.item = resItem;
-          // console.log('Data received from TgApiService.getById(): ', this.item);
-        },
-        (err) => {
-          this.apiRequestsCount--;
-          this.handleApiResErr(err);
-        },
-        () => {
-          this.apiRequestsCount--;
-
-          this.updateFormValues();
-        }
-      );
-
-    this.pBarMode = 'indeterminate';
+        this.dataIsLoading = false;
+      },
+      (err) => {
+        console.log('1 error');
+        this.dataIsLoading = false;
+        this.handleApiResErr(err, true);
+      },
+      () => {
+        console.log('1 complete');
+        this.dataIsLoading = false;
+        this.updateFormValues();
+      }
+    );
   }
 
   loadProdIdDependantValues(prodId: number): void {
     if (prodId !== null) {
+      this.dataIsLoading = true;
       this.unitLbl = 'Loading...';
 
       // Get all Product-Units
 
       const params = new HttpParams().set('prodId', prodId.toString());
 
-      this.apiRequestsCount++;
       this.tgapiSvc.getAllWithParams<DProductUnit>(DProductUnit.name, params)
         .subscribe(
-          puRes => {
-            this.productUnits = (puRes as DProductUnit[]).map(obj => ({ ...obj }));
+          res => {
+            this.productUnits = (res as DProductUnit[]).map(obj => ({ ...obj }));
             console.log('Data received from TgApiService.getAllWithParams(): ', this.productUnits);
 
             this.unitLbl = 'Unit';
+            this.dataIsLoading = false;
           },
           err => {
-            this.apiRequestsCount--;
             this.handleApiResErr(err);
+            this.dataIsLoading = false;
           },
           () => {
-            this.apiRequestsCount--;
-
             this.updateFormValues();
+            this.dataIsLoading = false;
           }
         );
     } else {
@@ -176,17 +161,18 @@ export class EditItemComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    const item = (this.addForm.value as DItem);
-    console.log('Adding item: ', item);
+    const formItem = (this.editForm.value as DItem);
+    formItem.id = this.itemId;
+    console.log('Updating item: ', formItem);
 
     this.apiRequestsCount++;
-    this.tgapiSvc.addSingle(DItem.name, item)
+    this.tgapiSvc.updateSingle(DItem.name, this.item.id, formItem)
       .subscribe(
         (res) => {
           console.log('Item successfully saved. API Response: ', res);
 
           // --- Redirect to the Items-list view ---
-          this.router.navigate(['/shared/item-detail/' + this.item.id]).then((navigated: boolean) => {
+          this.router.navigate(['/shared/item-details/' + this.item.id]).then((navigated: boolean) => {
             if (navigated) {
               this.openSnackBar('Successfully updated the item', 3000, 'success');
             }
@@ -203,16 +189,13 @@ export class EditItemComponent implements OnInit, OnDestroy {
   }
 
   cancelBtnOnClicked(): void {
-    this.router.navigate(['/shared/edit-item/' + this.item.id]);
+    this.router.navigate(['/shared/item-details/' + this.item.id]);
   }
 
   // API-Service Response Error Handler.
   handleApiResErr(error: any, redirect: boolean = false): void {
-    this.logger.error('Error while receiving data from TgApiService.getAll(): ');
+    this.logger.error('Error while receiving data from TgApiService: ');
     this.logger.error(error);
-
-    this.loadDataError = 'Problem loading data. Please try later.';
-    // this.openSnackBar(this.loadDataError, 3000, 'warn');
 
     if (redirect) {
       // --- Redirect to the Items-list view ---
@@ -221,6 +204,9 @@ export class EditItemComponent implements OnInit, OnDestroy {
           this.openSnackBar(this.loadDataError, 3000, 'warn');
         }
       });
+    } else {
+      this.loadDataError = 'Problem processing request. Please try later.';
+      this.openSnackBar(this.loadDataError, 3000, 'warn');
     }
   }
 

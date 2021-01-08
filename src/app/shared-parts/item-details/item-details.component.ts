@@ -62,7 +62,7 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
 
     // Get the Item with id = itemId
 
-    const params = new HttpParams().set('withProduct', 'true');
+    const params = new HttpParams().set('mode', 'txt');
     // params.append('withProduct', 'true');
 
     this.apiRequestsCount++;
@@ -72,8 +72,8 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
         (res) => {
           const apiItem = (res as ApiDItem);
           this.item = apiItem.item;
-          this.product = apiItem.product;
-          this.productUnit = apiItem.productUnit;
+          this.product = apiItem.products[0];
+          this.productUnit = apiItem.productUnits[0];
           // console.log('Data received from TgApiService.getById(): ', this.item);
         },
         (err) => {
@@ -102,9 +102,6 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
     this.logger.error('Error while receiving data from TgApiService.getAll(): ');
     this.logger.error(error);
 
-    this.loadDataError = 'Problem loading data. Please try later.';
-    // this.openSnackBar(this.loadDataError, 3000, 'warn');
-
     if (redirect) {
       // --- Redirect to the Items-list view ---
       this.router.navigate(['/shared/items-list']).then((navigated: boolean) => {
@@ -112,6 +109,9 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
           this.openSnackBar(this.loadDataError, 3000, 'warn');
         }
       });
+    } else {
+      this.loadDataError = 'Problem processing request. Please try later.';
+      this.openSnackBar(this.loadDataError, 3000, 'warn');
     }
   }
 

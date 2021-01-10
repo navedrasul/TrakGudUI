@@ -1,0 +1,24 @@
+@import "../../../assets/style/global/variables.scss";
+
+
+.dlgTitle {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+}
+
+.dlgContent {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dlgActions {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-evenly;
+}

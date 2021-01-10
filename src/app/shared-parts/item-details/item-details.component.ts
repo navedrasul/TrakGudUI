@@ -78,6 +78,9 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
           this.product = apiItem.products[0];
           this.productUnit = apiItem.productUnits[0];
           // console.log('Data received from TgApiService.getById(): ', this.item);
+
+          console.info('Data received from the API:');
+          console.table(apiItem);
         },
         (err) => {
           this.apiRequestsCount--;
@@ -119,9 +122,29 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
         console.log('The dialog was closed');
         if (result === true) {
           // ---> Delete the item.
-          this.logger.errorMessage(`Deleting item with Id: ${this.itemId}...`);
+          this.logger.alertMessage(`Deleting item with Id: ${this.itemId}...`);
 
-          // TODO: Complete implementation!
+          this.tgapiSvc.deleteSingle<DItem>(DItem.name, this.itemId)
+            .subscribe(
+              (res) => {
+                this.logger.alertMessage('Item successfully deleted.');
+                console.info('API Response (for DELETE): ', res);
+
+                // --- Redirect to the Items-list view ---
+                this.router.navigate(['/shared/items-list']).then((navigated: boolean) => {
+                  if (navigated) {
+                    this.openSnackBar('Successfully deleted the item', 3000, 'success');
+                  }
+                });
+              },
+              (err) => {
+                this.apiRequestsCount--;
+                this.handleApiResErr(err);
+              },
+              () => {
+                this.apiRequestsCount--;
+              }
+            );
         }
       });;
   }

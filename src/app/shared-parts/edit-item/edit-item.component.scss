@@ -1,11 +1,5 @@
 @import "../../../assets/style/global/variables.scss";
 
-$titleIconSize: 3rem;
-$maxTitleIconSize: 50px;
-
-$titleTextSize: 3rem;
-$maxTitleTextSize: 50px;
-
 .pageContainer {
   width: 100%;
 
@@ -24,36 +18,7 @@ $maxTitleTextSize: 50px;
   justify-content: space-between;
 }
 
-.dtlPBar {
-  width: 100%;
-  max-width: 512px;
-}
-
-.titleIcon {
-  width: $titleIconSize;
-  max-width: $maxTitleIconSize;
-  height: $titleIconSize;
-  max-height: $maxTitleIconSize;
-  font-size: 0.75 * $titleIconSize;
-  color: lightgrey;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.titleText {
-  height: $titleTextSize;
-  max-height: $maxTitleTextSize;
-  font-size: 0.75 * $titleTextSize;
-  color: $themeColor_light;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.addForm {
+.editForm {
   width: 100%;
   max-width: 512px;
 

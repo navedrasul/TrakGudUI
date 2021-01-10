@@ -32,7 +32,8 @@ export class TgApiService {
           this.logger.log(`tgApiService failed: ${err.message}`);
 
           // Let the app keep running by returning an empty result.
-          return of([] as T[]);
+          // return of([] as T[]);
+          throw err;
         })
       );
   }
@@ -53,7 +54,8 @@ export class TgApiService {
           this.logger.log(`tgApiService failed: ${err.message}`);
 
           // Let the app keep running by returning an empty result.
-          return of([] as T[]);
+          // return of([] as T[]);
+          throw err;
         })
       );
   }
@@ -71,7 +73,8 @@ export class TgApiService {
           this.logger.log(`tgApiService failed: ${err.message}`);
 
           // Let the app keep running by returning an empty result.
-          return of({} as T);
+          // return of({} as T);
+          throw err;
         })
       );
   }
@@ -92,7 +95,8 @@ export class TgApiService {
           this.logger.log(`tgApiService failed: ${err.message}`);
 
           // Let the app keep running by returning an empty result.
-          return of({} as T);
+          // return of({} as T);
+          throw err;
         })
       );
   }
@@ -113,7 +117,8 @@ export class TgApiService {
           this.logger.log(`tgApiService failed: ${err.message}`);
 
           // Let the app keep running by returning an empty result.
-          return of({});
+          // return of({});
+          throw err;
         })
       );
   }
@@ -135,6 +140,25 @@ export class TgApiService {
 
           // Let the app keep running by returning an empty result.
           // return of({});
+          throw err;
+        })
+      );
+  }
+
+  deleteSingle<T>(typeName: string, id: number): Observable<T> {
+    const targetUrl = this.API_URL + ModelToApi[typeName] + '/' + id;
+    console.log('Deleting data from URL: ' + targetUrl + ' ...');
+    return this.http.delete<T>(targetUrl)
+      .pipe(
+        catchError(err => {
+          // TODO: send the error to remote logging infrastructure
+          this.logger.error(err); // log to console instead
+
+          // TODO: better job of transforming error for user consumption
+          this.logger.log(`tgApiService failed: ${err.message}`);
+
+          // Let the app keep running by returning an empty result.
+          // return of({} as T);
           throw err;
         })
       );

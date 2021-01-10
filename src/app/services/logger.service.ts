@@ -20,4 +20,12 @@ export class LoggerService {
   public errorMessage(message: string): void {
     console.log(`%c${message}`, 'color: #f77;');
   }
+
+  public warningMessage(message: string): void {
+    console.log(`%c${message}`, 'color: #f70;');
+  }
+
+  public alertMessage(message: string): void {
+    console.log(`%c${message}`, 'color: #cc6; padding: 3px; border: dashed 1px #aaa;');
+  }
 }

@@ -69,7 +69,7 @@
           type="submit"
           mat-raised-button
           color="primary"
-          [disabled]="!editForm.valid"
+          [disabled]="!editForm.valid && dataIsLoading"
         >Submit</button>
       </div>
       <div>

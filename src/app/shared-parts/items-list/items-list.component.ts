@@ -43,8 +43,24 @@ export class ItemsListComponent implements OnInit {
     this.tgapiSvc.getAllWithParams<ApiDItem>(DItem.name, params)
       .subscribe(
         (res) => {
-          this.items = (res as ApiDItem[]).map(obj => ({ ...obj }));
+          // Copy each item in the received list.
+          this.items = (res as ApiDItem[])
+            .map(obj => ({ ...obj }))
+            .sort((a, b) => {
+              if (b.item.addTs > a.item.addTs) {
+                return 1;
+              } else if (b.item.addTs < a.item.addTs) {
+                return -1;
+              } else {
+                return 0;
+              }
+            });
           // console.log('Data received from TgApiService.getAllWithParams(): ', this.items);
+
+          // Order the items by 'newest first'.
+
+          console.log('Data received from the API:');
+          console.table(this.items);
         },
         (err) => {
           this.apiRequestsCount--;

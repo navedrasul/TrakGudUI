@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, Observable, forkJoin } from 'rxjs';
+import { pairwise, startWith } from 'rxjs/operators';
 // import { retry } from 'rxjs/operators';
 import { ApiDItem, DItem, DProduct, DProductUnit } from 'src/app/api-models/api-models';
 import { LoggerService } from 'src/app/services/logger.service';
@@ -75,20 +76,30 @@ export class EditItemComponent implements OnInit, OnDestroy {
   }
 
   updateFormValues(): void {
-    this.editForm.patchValue(this.item);
+    this.editForm.patchValue(this.item, {
+      emitEvent: false
+    });
   }
 
   subscribeToFormEvents(): void {
-    this.editForm.get('prodId').valueChanges
-      .subscribe(pRes => {
-        this.loadProdIdDependantValues(pRes);
+    this.editForm.get('prodId')
+      .valueChanges
+      // .pipe(
+      //   pairwise()
+      // )
+      // .subscribe(([prev, next]) => {
+      //   console.log('prodId value changed to: ' + next);
+      //   this.loadProdIdDependantValues(next);
+      // });
+      .subscribe(res => {
+        this.loadProdIdDependantValues(res);
       });
   }
 
   loadData(): void {
     if (!this.itemId) {
       // --- Redirect to the Items-list view ---
-      this.router.navigate(['/shared/items-list/' + this.item.id]).then((navigated: boolean) => {
+      this.router.navigate(['/shared/item-details/' + this.item.id]).then((navigated: boolean) => {
         if (navigated) {
           this.loadDataError = 'Invalid item-id.';
           this.openSnackBar(this.loadDataError, 5000, 'warn');
@@ -109,23 +120,22 @@ export class EditItemComponent implements OnInit, OnDestroy {
 
     itemForEditObs.subscribe(
       (res) => {
-        console.log('1 next');
         const apiItemForEdit = { ...(res as ApiDItem) };
         this.item = { ...apiItemForEdit.item };
         this.products = apiItemForEdit.products.map(obj => ({ ...obj }));
         this.productUnits = apiItemForEdit.productUnits.map(obj => ({ ...obj }));
-
-        this.dataIsLoading = false;
       },
       (err) => {
         console.log('1 error');
         this.dataIsLoading = false;
-        this.handleApiResErr(err, true);
+        // this.handleApiResErr(err, true);
       },
       () => {
         console.log('1 complete');
         this.dataIsLoading = false;
+
         this.updateFormValues();
+        this.subscribeToFormEvents();
       }
     );
   }
@@ -134,6 +144,10 @@ export class EditItemComponent implements OnInit, OnDestroy {
     if (prodId !== null) {
       this.dataIsLoading = true;
       this.unitLbl = 'Loading...';
+      this.editForm.get('unitId').setValue(null, {
+        // onlySelf: true,
+        emitEvent: false
+      });
 
       // Get all Product-Units
 
@@ -146,7 +160,6 @@ export class EditItemComponent implements OnInit, OnDestroy {
             console.log('Data received from TgApiService.getAllWithParams(): ', this.productUnits);
 
             this.unitLbl = 'Unit';
-            this.dataIsLoading = false;
           },
           err => {
             this.handleApiResErr(err);
@@ -201,7 +214,7 @@ export class EditItemComponent implements OnInit, OnDestroy {
 
     if (redirect) {
       // --- Redirect to the Items-list view ---
-      this.router.navigate(['/shared/edit-item/' + this.item.id]).then((navigated: boolean) => {
+      this.router.navigate(['/shared/item-details/' + this.item.id]).then((navigated: boolean) => {
         if (navigated) {
           this.openSnackBar(this.loadDataError, 3000, 'warn');
         }

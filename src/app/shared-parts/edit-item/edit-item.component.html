@@ -17,7 +17,7 @@
   </div>
   <mat-progress-bar
     [mode]="pBarMode"
-    *ngIf="apiRequestsCount > 0"
+    *ngIf="dataIsLoading"
     class="dtlPBar"
   ></mat-progress-bar>
   <form

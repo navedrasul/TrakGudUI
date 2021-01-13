@@ -1,0 +1,22 @@
+<div class="page-container">
+  <div class="menu-container">
+    <h1>
+      <mat-icon>settings</mat-icon>
+      Settings
+    </h1>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        [routerLink]="menuLink.route"
+        routerLinkActive="active"
+        *ngFor="let menuLink of menuLinks"
+      >
+        <div class="settings-link">
+          {{menuLink.text}}
+          <mat-icon>chevron_right</mat-icon>
+        </div>
+        <mat-divider></mat-divider>
+      </a>
+    </mat-nav-list>
+  </div>
+</div>

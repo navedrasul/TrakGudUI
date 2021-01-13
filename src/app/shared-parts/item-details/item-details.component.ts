@@ -79,7 +79,7 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
           this.productUnit = apiItem.productUnits[0];
           // console.log('Data received from TgApiService.getById(): ', this.item);
 
-          console.info('Data received from the API:');
+          console.log('Data received from the API:');
           console.table(apiItem);
         },
         (err) => {
@@ -128,7 +128,7 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
             .subscribe(
               (res) => {
                 this.logger.alertMessage('Item successfully deleted.');
-                console.info('API Response (for DELETE): ', res);
+                console.log('API Response (for DELETE): ', res);
 
                 // --- Redirect to the Items-list view ---
                 this.router.navigate(['/shared/items-list']).then((navigated: boolean) => {

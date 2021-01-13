@@ -46,6 +46,13 @@ import { EditItemComponent } from './shared-parts/edit-item/edit-item.component'
 import { MessageDialogComponent } from './dialogs/message-dialog/message-dialog.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { DialogService } from './services/dialog.service';
+import { SettingsComponent } from './main-pages/settings/settings.component';
+import { AdminEditDataComponent } from './admin-pages/admin-edit-data/admin-edit-data.component';
+import { AdminUsersComponent } from './admin-pages/admin-users/admin-users.component';
+import { SetCurrencyNUnitComponent } from './settings-parts/set-currency-n-unit/set-currency-n-unit.component';
+import { SetCompanyInfoComponent } from './settings-parts/set-company-info/set-company-info.component';
+import { AddPurchaseComponent } from './shared-parts/add-purchase/add-purchase.component';
+import { AddImportComponent } from './shared-parts/add-import/add-import.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +67,14 @@ import { DialogService } from './services/dialog.service';
     AddItemBatchComponent,
     EditItemComponent,
     MessageDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    SettingsComponent,
+    AdminEditDataComponent,
+    AdminUsersComponent,
+    SetCurrencyNUnitComponent,
+    SetCompanyInfoComponent,
+    AddPurchaseComponent,
+    AddImportComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

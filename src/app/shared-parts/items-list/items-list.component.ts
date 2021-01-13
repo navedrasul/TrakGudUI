@@ -13,8 +13,8 @@ import { ApiDItem, DItem, DProduct } from '../../api-models/api-models';
 })
 export class ItemsListComponent implements OnInit {
 
-  displayedColumns: string[] = ['prodId', 'price', 'qty'];
-  displayedColumnsTxt: string[] = ['Product', 'Price', 'Quantity'];
+  displayedColumns: string[] = ['id', 'prodId', 'price', 'qty'];
+  displayedColumnsTxt: string[] = ['Id', 'Product', 'Price', 'Quantity'];
 
   items: ApiDItem[];
 
@@ -60,7 +60,15 @@ export class ItemsListComponent implements OnInit {
           // Order the items by 'newest first'.
 
           console.log('Data received from the API:');
-          console.table(this.items);
+          console.log('Items:');
+          console.table(this.items.map(i => {
+            return {
+              id: i.item.id,
+              prod: i.products[0].name,
+              unit: i.productUnits[0].name,
+              addTs: i.item.addTs
+            };
+          }));
         },
         (err) => {
           this.apiRequestsCount--;

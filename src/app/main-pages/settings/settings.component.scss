@@ -1,0 +1,44 @@
+@import "../../../assets/style/global/variables.scss";
+
+h1 {
+  width: 100%;
+  padding-top: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: $themeColor_light;
+}
+
+h1 mat-icon,
+button mat-icon {
+  padding-right: 10px;
+}
+
+.settings-link {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-container {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu-container {
+  max-width: 320px;
+  width: 100%;
+}
+
+.warning-color {
+  color: #f44;
+}

@@ -15,6 +15,8 @@
 
   display: flex;
   justify-content: space-between;
+
+  color: $themeColor_light;
 }
 
 .dtlPBar {
@@ -25,6 +27,10 @@
 .il-table {
   max-width: 720px;
   width: 100%;
+}
+
+.mat-row {
+  cursor: pointer;
 }
 
 .mat-row:hover {

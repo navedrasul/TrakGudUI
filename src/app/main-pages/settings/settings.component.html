@@ -1,0 +1,54 @@
+<div class="page-container">
+  <div class="menu-container">
+    <h1>
+      <mat-icon>settings</mat-icon>
+      Settings
+    </h1>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        routerLink="/settings/cur-n-unt"
+        routerLinkActive="active"
+      >
+        <div class="settings-link">
+          Currency & Units
+          <mat-icon>chevron_right</mat-icon>
+        </div>
+      </a>
+      <mat-divider></mat-divider>
+      <a
+        mat-list-item
+        routerLink="/settings/cmp-inf"
+        routerLinkActive="active"
+      >
+        <div class="settings-link">
+          Company Info
+          <mat-icon>chevron_right</mat-icon>
+        </div>
+      </a>
+      <mat-divider></mat-divider>
+      <a
+        mat-list-item
+        routerLink="/admin/usr"
+        routerLinkActive="active"
+      >
+        <div class="settings-link warning-color">
+          Users
+          <mat-icon>chevron_right</mat-icon>
+        </div>
+      </a>
+      <mat-divider></mat-divider>
+      <a
+        mat-list-item
+        routerLink="/admin/edt-dat"
+        routerLinkActive="active"
+      >
+        <div class="settings-link warning-color">
+          Edit Data
+          <mat-icon>chevron_right</mat-icon>
+        </div>
+      </a>
+      <mat-divider></mat-divider>
+    </mat-nav-list>
+  </div>
+</div>

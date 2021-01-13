@@ -20,9 +20,10 @@ export class AddItemComponent implements OnInit {
   products: DProduct[];
   productUnits: DProductUnit[];
 
-  apiRequestsCount = 0;
+  dataIsLoading = false;
   pBarMode = 'query';
   loadDataError: string;
+
   unitLbl: string;
 
   constructor(
@@ -46,44 +47,52 @@ export class AddItemComponent implements OnInit {
       qty: new FormControl(),
       unitId: new FormControl()
     });
+  }
 
-    // Subscribe to form events.
+  loadData(): void {
+    this.pBarMode = 'query';
+    this.loadDataError = null;
 
+    // Get all Products
+
+    this.dataIsLoading = true;
+    this.tgapiSvc.getAll<DProduct>(DProduct.name)
+      .subscribe(
+        (res) => {
+          this.products = (res as DProduct[]).map(obj => ({ ...obj }));
+          // console.log('Data received from TgApiService.getAll(): ', this.products);
+
+          this.subscribeToFormEvents();
+        },
+        (err) => {
+          this.handleApiResErr(err, true);
+          this.dataIsLoading = false;
+        },
+        () => {
+          this.dataIsLoading = false;
+        }
+      );
+  }
+
+  subscribeToFormEvents(): void {
     this.addForm.get('prodId').valueChanges
       .subscribe(pRes => {
         this.loadProdIdDependantValues(pRes);
       });
   }
 
-  loadData(): void {
-    // Get all Products
-
-    this.apiRequestsCount++;
-    this.tgapiSvc.getAll<DProduct>(DProduct.name)
-      .subscribe(
-        (res) => {
-          this.products = (res as DProduct[]).map(obj => ({ ...obj }));
-          // console.log('Data received from TgApiService.getAll(): ', this.products);
-        },
-        (err) => {
-          this.apiRequestsCount--;
-          this.handleApiResErr(err, true);
-        },
-        () => {
-          this.apiRequestsCount--;
-        }
-      );
-  }
-
   loadProdIdDependantValues(prodId: number): void {
     if (prodId !== null) {
       this.unitLbl = 'Loading...';
+      this.addForm.get('unitId').setValue(null, {
+        emitEvent: false
+      });
 
       // Get all Product-Units
 
       const params = new HttpParams().set('prodId', prodId.toString());
 
-      this.apiRequestsCount++;
+      this.dataIsLoading = true;
       this.tgapiSvc.getAllWithParams<DProductUnit>(DProductUnit.name, params)
         .subscribe(
           puRes => {
@@ -93,11 +102,11 @@ export class AddItemComponent implements OnInit {
             this.unitLbl = 'Unit';
           },
           err => {
-            this.apiRequestsCount--;
             this.handleApiResErr(err);
+            this.dataIsLoading = false;
           },
           () => {
-            this.apiRequestsCount--;
+            this.dataIsLoading = false;
           }
         );
     } else {
@@ -106,11 +115,11 @@ export class AddItemComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const item = (this.addForm.value as DItem);
-    console.log('Adding item: ', item);
+    const formItem = (this.addForm.value as DItem);
+    console.log('Adding item: ', formItem);
 
-    this.apiRequestsCount++;
-    this.tgapiSvc.addSingle(DItem.name, item)
+    this.dataIsLoading = true;
+    this.tgapiSvc.addSingle(DItem.name, formItem)
       .subscribe(
         (res) => {
           console.log('Item successfully saved. API Response: ', res);
@@ -123,11 +132,11 @@ export class AddItemComponent implements OnInit {
           });
         },
         (err) => {
-          this.apiRequestsCount--;
+          this.dataIsLoading = false;
           this.handleApiResErr(err);
         },
         () => {
-          this.apiRequestsCount--;
+          this.dataIsLoading = false;
         }
       );
   }
@@ -138,7 +147,7 @@ export class AddItemComponent implements OnInit {
 
   // API-Service Response Error Handler.
   handleApiResErr(error: any, redirect: boolean = false): void {
-    this.logger.error('Error while receiving data from TgApiService.getAll(): ');
+    this.logger.error('Error while receiving data from TgApiService: ');
     this.logger.error(error);
 
     if (redirect) {

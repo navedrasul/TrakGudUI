@@ -3,10 +3,11 @@ export class ApiDSeller {
   companyInfo?: CmCompanyInfo;
 }
 export class ApiDItemBatchBase {
-  itemBatchType?: DItemBatchType;
-  itemBatchSourceType?: DItemBatchSourceType;
-  product?: DProduct;
-  productUnit?: DProductUnit;
+  itemInfo?: DItem;
+  itemBatchTypes?: DItemBatchType;
+  itemBatchSourceTypes?: DItemBatchSourceType[];
+  products?: DProduct[];
+  productUnits?: DProductUnit[];
 }
 export class ApiDReceivedItemBatch extends ApiDItemBatchBase {
   receivedItemBatch?: DReceivedItemBatch;

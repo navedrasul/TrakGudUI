@@ -1,17 +1,17 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { forkJoin, Observable, of } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { LoggerService } from 'src/app/services/logger.service';
 import { TgApiService } from 'src/app/services/tg-api.service';
 
-import { CmContact, DBuyer, DItem, DItemBatchSourceType, DItemBatchType, DProductUnit, DReceivedItemBatch, FimTransaction } from '../../api-models/api-models';
-import { DProduct, DSeller, DWarehouse } from '../../api-models/api-models';
+import { ApiDItemBatch, ApiDSeller, DBuyer, DItem, DItemBatch, DItemBatchSourceType, DProductUnit, DReceivedItemBatch, DWarehouse, FimTransaction } from '../../api-models/api-models';
+import { DProduct, DSeller } from '../../api-models/api-models';
 
 @Component({
   selector: 'app-add-item-batch',
@@ -33,7 +33,8 @@ export class AddItemBatchComponent implements OnInit {
   itemTransaction: FimTransaction;
   productUnits: DProductUnit[];
 
-  filteredSources: Observable<DSeller[]>;
+  // filteredSources: DSeller[] | DBuyer[] | DWarehouse[];
+  filteredSources: DSeller[];
 
   dataIsLoading = false;
   pBarMode = 'query';
@@ -56,7 +57,7 @@ export class AddItemBatchComponent implements OnInit {
 
   initForms(): void {
     this.unitLbl = 'Select Product first';
-    this.sourceLbl = 'Select Source Type first';
+    this.sourceLbl = 'Source';
 
     // Create FormGroups for each step.
 
@@ -80,30 +81,22 @@ export class AddItemBatchComponent implements OnInit {
     this.pBarMode = 'query';
     this.loadDataError = null;
 
-    // Get all Products
+    const params = new HttpParams().set('mode', 'add');
 
     this.dataIsLoading = true;
-    const prodsReqObs = this.tgapiSvc.getAll<DProduct>(DProduct.name);
-
-    // Get all Item-Batch-Source-Types
-
-    const stReqObs = this.tgapiSvc.getAll<DItemBatchSourceType>(DItemBatchSourceType.name);
-
-    forkJoin([
-      prodsReqObs,
-      stReqObs
-    ])
+    const prodsReqObs = this.tgapiSvc.getByIdWithParams<ApiDItemBatch>(DItemBatch.name, 0, params)
       .subscribe(
         (res) => {
           this.pBarMode = 'indeterminate';
 
           console.log('Data received from TgApiService: ');
 
-          this.products = (res[0] as DProduct[]).map(obj => ({ ...obj }));
+          const apiItemB = (res as ApiDItemBatch);
+          this.products = apiItemB.products?.map(obj => ({ ...obj }));
           console.log('Products:');
           console.table(this.products);
 
-          this.itemBatchSourceTypes = (res as DItemBatchSourceType[]).map(obj => ({ ...obj }));
+          this.itemBatchSourceTypes = apiItemB.itemBatchSourceTypes?.map(obj => ({ ...obj }));
           console.log('Item Batch Source Types:');
           console.table(this.itemBatchSourceTypes);
 
@@ -127,30 +120,48 @@ export class AddItemBatchComponent implements OnInit {
   }
 
   subscribeToFormEvents(): void {
-    this.addFormStep1.get('prodId').valueChanges
+    this.addFormStep1.get('productId').valueChanges
       .subscribe(pRes => {
         this.loadProdIdDependantValues(pRes);
       });
 
-    this.addFormStep1.get('sourceType').valueChanges
-      .subscribe(pRes => {
-        this.loadSourceTypeDependantValues(pRes);
-      });
+    // this.addFormStep1.get('sourceType').valueChanges
+    //   .subscribe(pRes => {
+    //     this.loadSourceTypeDependantValues(pRes);
+    //   });
+
+    // this.addFormStep2.get('sourceId').valueChanges
+    // .pipe(
+    //   map(value => this.sourcesFilterAsync(value))
+    // )
+    // .subscribe(res => {
+    //   const sourceType = this.addFormStep2.get('sourceType').value as string;
+    //   const sourceTypeTxt = this.itemBatchSourceTypes.find(st => st.value === sourceType).text;
+
+    //   if (sourceTypeTxt.toUpperCase() === 'SELLER') {
+    //     this.filteredSources = (res as Observable<DSeller[]>);
+    //   } else if (sourceTypeTxt.toUpperCase() === 'BUYER') {
+    //     this.filteredSources = (res as Observable<DBuyer[]>);
+    //   } else if (sourceTypeTxt.toUpperCase() === 'WAREHOUSE') {
+    //     this.filteredSources = (res as Observable<DWarehouse[]>);
+    //   } else {
+    //     this.logger.errorMessage('Unrecognised Item-Batch-Source-Type while updating Item-Source values.');
+    //   }
+
+    //   console.log('Item Source values received: ');
+    //   console.table(this.filteredSources);
+    // });
 
     this.addFormStep2.get('sourceId').valueChanges
-      .pipe(
-        // startWith(''),
-        map(value => this.sourcesFilterAsync(value))
-      )
-      .subscribe(res => {
-        this.filteredSources = res;
+      .subscribe(sRes => {
+        this.filterSources(sRes);
       });
   }
 
   loadProdIdDependantValues(prodId: number): void {
     if (prodId !== null) {
       this.unitLbl = 'Loading...';
-      this.addFormStep3.get('unitId').setValue(null, {
+      this.addFormStep1.get('unitId').setValue(null, {
         emitEvent: false
       });
 
@@ -180,38 +191,38 @@ export class AddItemBatchComponent implements OnInit {
     }
   }
 
-  loadSourceTypeDependantValues(prodId: number): void {
-    if (prodId !== null) {
-      this.sourceLbl = 'Loading...';
-      this.addFormStep3.get('unitId').setValue(null, {
-        emitEvent: false
-      });
+  // loadSourceTypeDependantValues(prodId: number): void {
+  //   if (prodId !== null) {
+  //     this.sourceLbl = 'Loading...';
+  //     this.addFormStep3.get('unitId').setValue(null, {
+  //       emitEvent: false
+  //     });
 
-      // Get all Product-Units
+  //     // Get all Sources
 
-      const params = new HttpParams().set('prodId', prodId.toString());
+  //     const params = new HttpParams().set('prodId', prodId.toString());
 
-      this.dataIsLoading = true;
-      this.tgapiSvc.getAllWithParams<DProductUnit>(DProductUnit.name, params)
-        .subscribe(
-          puRes => {
-            this.productUnits = (puRes as DProductUnit[]).map(obj => ({ ...obj }));
-            console.log('Data received from TgApiService.getAllWithParams(): ', this.productUnits);
+  //     this.dataIsLoading = true;
+  //     this.tgapiSvc.getAllWithParams<DProductUnit>(DProductUnit.name, params)
+  //       .subscribe(
+  //         puRes => {
+  //           this.productUnits = (puRes as DProductUnit[]).map(obj => ({ ...obj }));
+  //           console.log('Data received from TgApiService.getAllWithParams(): ', this.productUnits);
 
-            this.sourceLbl = 'Source';
-          },
-          err => {
-            this.handleApiResErr(err);
-            this.dataIsLoading = false;
-          },
-          () => {
-            this.dataIsLoading = false;
-          }
-        );
-    } else {
-      this.sourceLbl = 'Select Source Type first';
-    }
-  }
+  //           this.sourceLbl = 'Source';
+  //         },
+  //         err => {
+  //           this.handleApiResErr(err);
+  //           this.dataIsLoading = false;
+  //         },
+  //         () => {
+  //           this.dataIsLoading = false;
+  //         }
+  //       );
+  //   } else {
+  //     this.sourceLbl = 'Select Source Type first';
+  //   }
+  // }
 
 
   cancelBtnOnClicked(): void {
@@ -275,18 +286,61 @@ export class AddItemBatchComponent implements OnInit {
     }
   }
 
-  private sourcesFilterAsync(value: string): Observable<DSeller[]> {
-    if (value.length < 2) {
-      return of([]);
+  // private sourcesFilterAsync(value: string): Observable<DSeller[]> {
+  //   if (value.length < 2) {
+  //     return of([]);
+  //   }
+
+  //   const params = new HttpParams().set('filter', value);
+  //   // params.append('filter', value);
+  //   params.append('count', '5');
+
+  //   return this.tgapiSvc.getAllWithParams<DSeller>(
+  //     DSeller.name,
+  //     params
+  //   );
+  // }
+
+  private filterSources(filterKey: string): void {
+    if (filterKey.length < 2) {
+      return;
     }
 
-    const params = new HttpParams().set('filter', value);
-    // params.append('filter', value);
+    const params = new HttpParams().set('filter', filterKey);
     params.append('count', '5');
 
-    return this.tgapiSvc.getAllWithParams<DSeller>(
+    this.tgapiSvc.getAllWithParams<ApiDSeller>(
       DSeller.name,
       params
-    );
+    )
+      .subscribe(res => {
+        console.log('Filtered Sellers from API: ', res);
+        this.filteredSources = res.map(obj => ({ ...(obj.seller) }));
+
+        // const sourceType = this.addFormStep2.get('sourceType').value as string;
+        // const sourceTypeTxt = this.itemBatchSourceTypes.find(st => st.value === sourceType).text;
+
+        // if (sourceTypeTxt.toUpperCase() === 'SELLER') {
+          // this.filteredSources = (res as DSeller[]);
+        // } else if (sourceTypeTxt.toUpperCase() === 'BUYER') {
+        //   this.filteredSources = (res as DBuyer[]);
+        // } else if (sourceTypeTxt.toUpperCase() === 'WAREHOUSE') {
+        //   this.filteredSources = (res as DWarehouse[]);
+        // } else {
+        //   this.logger.errorMessage('Unrecognised Item-Batch-Source-Type while updating Item-Source values.');
+        // }
+
+        console.log('Item Source values received: ');
+        console.table(this.filteredSources);
+      });
+  }
+
+  sourceDisplayFn(value?: number): string | undefined {
+    return value ? this.filteredSources.find(s => s.id === value).name : undefined;
+  }
+
+  getWarehouseName(warehouse: DWarehouse): string {
+    // Todo: Implement!
+    return warehouse.locationId.toString();
   }
 }

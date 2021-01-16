@@ -34,7 +34,7 @@
         <p class="stepDesc">Please fill the following and press next.</p>
         <mat-form-field appearance="fill">
           <mat-label>Product</mat-label>
-          <mat-select formControlName="itemBatchType">
+          <mat-select formControlName="productId">
             <mat-option
               *ngFor="let prod of products"
               [value]="prod.id"
@@ -82,7 +82,7 @@
         <ng-template matStepLabel>Source Info</ng-template>
         <p class="stepDesc">Please select/add a source and press next.</p>
         <mat-form-field appearance="fill">
-          <mat-label>Item Source Type</mat-label>
+          <mat-label>Source Type</mat-label>
           <mat-select formControlName="sourceType">
             <mat-option
               *ngFor="let ibst of itemBatchSourceTypes"
@@ -93,18 +93,21 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="fill">
-          <mat-label>Source</mat-label>
+          <mat-label>{{sourceLbl}}</mat-label>
           <input
             type="text"
-            placeholder="Pick one"
-            aria-label="Number"
             matInput
+            placeholder="Source of the stock being added"
+            aria-label="Source of the stock being added"
             formControlName="sourceId"
             [matAutocomplete]="autoSource"
           >
-          <mat-autocomplete #autoSource="matAutocomplete">
+          <mat-autocomplete
+            #autoSource="matAutocomplete"
+            [displayWith]="sourceDisplayFn.bind(this)"
+          >
             <mat-option
-              *ngFor="let source of filteredSources | async"
+              *ngFor="let source of filteredSources"
               [value]="source.id"
             >
               {{source.name}}
@@ -115,10 +118,37 @@
           <button
             type="submit"
             mat-raised-button
+            matStepperPrevious
+            color="primary"
+            [disabled]="!addFormStep2.valid"
+          >Back</button>
+        </div>
+        <div>
+          <button
+            type="submit"
+            mat-raised-button
             matStepperNext
             color="primary"
             [disabled]="!addFormStep2.valid"
-          >Submit</button>
+          >Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="addFormStep3">
+      <form
+        [formGroup]="addFormStep3"
+        class="addFormStep"
+      >
+        <ng-template matStepLabel>Transaction Info</ng-template>
+        <p class="stepDesc">Please select/add a transaction and press next.</p>
+        <div>
+          <button
+            type="submit"
+            mat-raised-button
+            matStepperNext
+            color="primary"
+            [disabled]="!addFormStep3.valid"
+          >Next</button>
         </div>
       </form>
     </mat-step>

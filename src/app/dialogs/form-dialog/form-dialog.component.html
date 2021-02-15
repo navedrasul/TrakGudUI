@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>
+  <div class="dlgTitle">{{data.title}}</div>
+</h1>
+<div
+  mat-dialog-content
+  class="dlgContent"
+>
+  <ng-content></ng-content>
+</div>
+<div
+  mat-dialog-actions
+  class="dlgActions"
+>
+  <button
+    mat-button
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+    [color]="data.submitBtnColor || 'primary'"
+  >{{data.submitBtnText || 'Yes'}}</button>
+  <button
+    mat-button
+    [color]="data.cancelBtnColor || 'warn'"
+    (click)="onNoClick()"
+  >{{data.cancelBtnText || 'No'}}</button>
+</div>

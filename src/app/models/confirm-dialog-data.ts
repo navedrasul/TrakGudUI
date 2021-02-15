@@ -1,4 +1,6 @@
-export class ConfirmDialogData {
+import { DialogDataBase } from './dialog-data-base';
+
+export class ConfirmDialogData extends DialogDataBase {
   title?: string;
   message?: string;
 

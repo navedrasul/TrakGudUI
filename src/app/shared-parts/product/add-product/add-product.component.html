@@ -1,0 +1,82 @@
+<div class="pageContainer">
+  <div class="header-row">
+    <div></div>
+    <div>
+      <h1>Add Product</h1>
+    </div>
+    <div>
+      <button
+        mat-mini-fab
+        color="warn"
+        aria-label="Cancel button"
+        (click)="cancelBtnOnClicked()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-progress-bar
+    [mode]="pBarMode"
+    *ngIf="dataIsLoading"
+    class="dtlPBar"
+  ></mat-progress-bar>
+  <form
+    [formGroup]="addForm"
+    class="addForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field appearance="fill">
+      <mat-label>Product Category</mat-label>
+      <mat-select formControlName="productCategoryId">
+        <mat-option
+          *ngFor="let prodCats of productCategories"
+          [value]="prodCats.id"
+        >
+          {{prodCats.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="name"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="desc"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>BarCode</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="barCode"
+      >
+    </mat-form-field>
+    <div class="form-footer">
+      <div>
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="!addForm.valid"
+        >Submit</button>
+      </div>
+      <div>
+        <button
+          type="button"
+          mat-raised-button
+          color="warn"
+          (click)="cancelBtnOnClicked()"
+        >Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

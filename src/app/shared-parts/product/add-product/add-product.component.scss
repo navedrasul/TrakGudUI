@@ -1,4 +1,4 @@
-@import "../../../assets/style/global/variables.scss";
+@import "../../../../assets/style/global/variables.scss";
 
 $titleIconSize: 3rem;
 $maxTitleIconSize: 50px;
@@ -26,53 +26,42 @@ $maxTitleTextSize: 50px;
   color: $themeColor_light;
 }
 
-.title {
-  display: flex;
-}
-
-mat-horizontal-stepper {
-  width: 100%;
-  max-width: 512px;
-}
-
 .dtlPBar {
   width: 100%;
   max-width: 512px;
 }
 
-.addFormStep {
+.titleIcon {
+  width: $titleIconSize;
+  max-width: $maxTitleIconSize;
+  height: $titleIconSize;
+  max-height: $maxTitleIconSize;
+  font-size: 0.75 * $titleIconSize;
+  color: lightgrey;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleText {
+  height: $titleTextSize;
+  max-height: $maxTitleTextSize;
+  font-size: 0.75 * $titleTextSize;
+  color: $themeColor_light;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addForm {
   width: 100%;
   max-width: 512px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.stepDesc {
-  color: grey;
-  font-style: italic;
-}
-
-.fieldWithButton {
-  width: 95%;
-
-  display: flex;
-  align-items: center;
-}
-
-.fhBtnContainer {
-  padding-bottom: 19px;
-
-  display: flex;
-}
-
-.stretchX {
-  flex-grow: 1;
-}
-
-.stretchY {
-  align-self: stretch;
 }
 
 .form-footer {

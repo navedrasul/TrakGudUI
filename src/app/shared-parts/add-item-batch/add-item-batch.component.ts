@@ -1,17 +1,21 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PlainDialogData } from 'src/app/models/plain-dialog-data';
+import { PlainDialogOptions } from 'src/app/models/plain-dialog-options';
+import { DialogService } from 'src/app/services/dialog.service';
 
 import { LoggerService } from 'src/app/services/logger.service';
 import { TgApiService } from 'src/app/services/tg-api.service';
 
 import { ApiDItemBatch, ApiDSeller, DBuyer, DItem, DItemBatch, DItemBatchSourceType, DProductUnit, DReceivedItemBatch, DWarehouse, FimTransaction } from '../../api-models/api-models';
 import { DProduct, DSeller } from '../../api-models/api-models';
+import { AddProductComponent } from '../product/add-product/add-product.component';
 
 @Component({
   selector: 'app-add-item-batch',
@@ -42,12 +46,14 @@ export class AddItemBatchComponent implements OnInit {
 
   unitLbl: string;
   sourceLbl: string;
+  addProdDlgRef: any;
 
   constructor(
     private router: Router,
     private logger: LoggerService,
     private tgapiSvc: TgApiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dlgSvc: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -224,14 +230,36 @@ export class AddItemBatchComponent implements OnInit {
   //   }
   // }
 
+  public onStepChange(event: any): void {
+    // Todo: Implement!
+    console.log('Step changed to (index): ', event.selectedIndex);
+  }
+
 
   cancelBtnOnClicked(): void {
     this.router.navigate(['/buy']);
   }
 
-  public onStepChange(event: any): void {
-    // Todo: Implement!
-    console.log('Step changed to (index): ', event.selectedIndex);
+  showAddProdDialog(): void {
+    // Show modal dialog to show 'Add Product' dialog.
+
+    const dlgData: PlainDialogData = {
+      embeddedComponentClass: AddProductComponent
+    };
+
+    const dlgOptions: PlainDialogOptions = {
+      width: '450px',
+      data: dlgData
+    };
+
+    this.addProdDlgRef = this.dlgSvc.openPlainDialog(dlgOptions);
+
+    this.addProdDlgRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        if (result === true) {
+          // Todo: Re-fetch the Products list and select the newly added Product.
+        }
+      });
   }
 
 

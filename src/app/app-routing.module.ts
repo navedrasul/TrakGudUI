@@ -12,6 +12,7 @@ import { SetCompanyInfoComponent } from './settings-parts/set-company-info/set-c
 import { AdminUsersComponent } from './admin-pages/admin-users/admin-users.component';
 import { AdminEditDataComponent } from './admin-pages/admin-edit-data/admin-edit-data.component';
 import { AddItemBatchComponent } from './shared-parts/add-item-batch/add-item-batch.component';
+import { AddProductComponent } from './shared-parts/product/add-product/add-product.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,14 @@ const routes: Routes = [
     component: AdminEditDataComponent
   },
   {
+    path: 'shared/add-item-batch',
+    component: AddItemBatchComponent
+  },
+  {
+    path: 'shared/add-product',
+    component: AddProductComponent
+  },
+  {
     path: 'shared/items-list',
     component: ItemsListComponent
   },
@@ -55,13 +64,10 @@ const routes: Routes = [
     component: AddItemComponent
   },
   {
-    path: 'shared/add-item-batch',
-    component: AddItemBatchComponent
-  },
-  {
     path: '**',
     // component: HomeComponent
     component: AddItemBatchComponent
+    // component: AddProductComponent
   }
 ];
 

@@ -146,7 +146,7 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
               }
             );
         }
-      });;
+      });
   }
 
   // API-Service Response Error Handler.

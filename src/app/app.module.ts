@@ -53,6 +53,10 @@ import { SetCurrencyNUnitComponent } from './settings-parts/set-currency-n-unit/
 import { SetCompanyInfoComponent } from './settings-parts/set-company-info/set-company-info.component';
 import { AddPurchaseComponent } from './shared-parts/add-purchase/add-purchase.component';
 import { AddImportComponent } from './shared-parts/add-import/add-import.component';
+import { FormDialogComponent } from './dialogs/form-dialog/form-dialog.component';
+import { AddProductComponent } from './shared-parts/product/add-product/add-product.component';
+import { ViewProductComponent } from './shared-parts/product/view-product/view-product.component';
+import { PlainDialogComponent } from './dialogs/plain-dialog/plain-dialog.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +78,11 @@ import { AddImportComponent } from './shared-parts/add-import/add-import.compone
     SetCurrencyNUnitComponent,
     SetCompanyInfoComponent,
     AddPurchaseComponent,
-    AddImportComponent
+    AddImportComponent,
+    FormDialogComponent,
+    AddProductComponent,
+    ViewProductComponent,
+    PlainDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

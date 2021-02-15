@@ -32,17 +32,33 @@
       >
         <ng-template matStepLabel>Stock Info</ng-template>
         <p class="stepDesc">Please fill the following and press next.</p>
-        <mat-form-field appearance="fill">
-          <mat-label>Product</mat-label>
-          <mat-select formControlName="productId">
-            <mat-option
-              *ngFor="let prod of products"
-              [value]="prod.id"
+        <div class="fieldWithButton">
+          <mat-form-field
+            appearance="fill"
+            class="stretchX"
+          >
+            <mat-label>Product</mat-label>
+            <mat-select formControlName="productId">
+              <mat-option
+                *ngFor="let prod of products"
+                [value]="prod.id"
+              >
+                {{prod.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="fhBtnContainer stretchY">
+            <button
+              type="button"
+              mat-flat-button
+              color="primary"
+              class="stretchY"
+              (click)="showAddProdDialog()"
             >
-              {{prod.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
         <mat-form-field appearance="fill">
           <mat-label>Quantity</mat-label>
           <input

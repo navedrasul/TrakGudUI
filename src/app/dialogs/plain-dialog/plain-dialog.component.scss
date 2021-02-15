@@ -1,0 +1,10 @@
+@import "../../../assets/style/global/variables.scss";
+
+
+.pageContainer {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
